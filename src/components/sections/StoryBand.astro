@@ -1,0 +1,40 @@
+---
+export interface Story {
+  quote: string;
+  name: string;
+  role: string;
+}
+
+interface Props {
+  stories: Story[];
+}
+
+const { stories } = Astro.props;
+---
+
+<!--
+  Human-story band. The homepage passes `stories` from src/data/content.ts,
+  which is intentionally empty until verified stories are collected — the band
+  renders nothing rather than displaying fabricated testimonials.
+-->
+{
+  stories.length > 0 && (
+    <section class="wrap py-16 lg:py-24" aria-label="Stories from our church">
+      <div class="grid gap-6 md:grid-cols-3">
+        {
+          stories.map((story) => (
+            <figure class="flex h-full flex-col rounded-[1.4rem] border border-line bg-white p-7 shadow-soft">
+              <blockquote class="font-display text-lg leading-relaxed text-pine-900">
+                &ldquo;{story.quote}&rdquo;
+              </blockquote>
+              <figcaption class="mt-5 text-sm font-semibold text-ink">
+                {story.name}
+                <span class="block text-xs font-normal text-muted">{story.role}</span>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </section>
+  )
+}

@@ -1,0 +1,100 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { site } from '@/config/site';
+import PageHero from '@/components/sections/PageHero.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import Reveal from '@/components/ui/Reveal.astro';
+import PrayerForm from '@/components/forms/PrayerForm.astro';
+import CTASection from '@/components/sections/CTASection.astro';
+import { prayerPromises } from '@/data/content';
+import { Clock3 } from '@lucide/astro';
+---
+
+<Layout
+  title="Prayer"
+  description="Request prayer from Touching Lives Church. You don't have to walk through it alone — our team would love to stand with you."
+>
+  <PageHero
+    image="/art/hero-prayer.svg"
+    kicker="Prayer"
+    title="We'd love to pray with you."
+    lede="Whatever you're carrying — a worry, a decision, a heartbreak, a hope — you don't have to walk through it alone. Share it here and our prayer team will stand with you."
+  />
+
+  <section class="wrap py-16 lg:py-24">
+    <div class="grid gap-14 lg:grid-cols-12 lg:gap-16">
+      <!-- Form -->
+      <div class="lg:col-span-7">
+        <Reveal>
+          <div class="rounded-[2rem] border border-line bg-white p-7 shadow-lift sm:p-10">
+            <h2 class="font-display text-2xl text-ink">Share your request</h2>
+            <p class="mt-2 text-pretty text-sm leading-relaxed text-muted">
+              Takes about a minute. Everything is confidential — between you and the prayer team.
+            </p>
+            <div class="mt-8">
+              <PrayerForm />
+            </div>
+          </div>
+        </Reveal>
+      </div>
+
+      <!-- Side -->
+      <div class="lg:col-span-5">
+        <SectionHeading
+          kicker="How we pray"
+          title="Three promises"
+          lede="Our team treats every request like it's the most important one we've received."
+        />
+
+        <div class="mt-8 space-y-4">
+          {
+            prayerPromises.map((promise, index) => {
+              const Icon = promise.icon;
+              return (
+                <Reveal delay={index * 80}>
+                  <div class="flex items-start gap-4 rounded-2xl border border-line bg-white p-5 shadow-soft">
+                    <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-terra-500/10 text-terra-600">
+                      <Icon class="h-5 w-5" aria-hidden="true" />
+                    </span>
+                    <div>
+                      <h3 class="font-display text-lg text-ink">{promise.title}</h3>
+                      <p class="mt-1 text-pretty text-sm leading-relaxed text-muted">{promise.description}</p>
+                    </div>
+                  </div>
+                </Reveal>
+              );
+            })
+          }
+        </div>
+
+        <Reveal delay={240}>
+          <div class="mt-6 rounded-2xl bg-pine-950 p-6 text-cream shadow-lift">
+            <p class="flex items-center gap-3 text-sm">
+              <Clock3 class="h-5 w-5 shrink-0 text-gold-300" aria-hidden="true" />
+              <span>
+                <strong>Pray with us in person:</strong> the prayer room is open during services and Tuesday evenings at {site.address.street}.
+              </span>
+            </p>
+          </div>
+        </Reveal>
+
+        <Reveal delay={300}>
+          <div class="mt-6 rounded-2xl bg-gold-200/40 p-6">
+            <p class="font-display text-lg text-pine-900">Need someone to talk to now?</p>
+            <p class="mt-1 text-sm leading-relaxed text-muted">
+              If you're in crisis, please don't wait. Call or text <strong>988</strong> to reach the Suicide & Crisis Lifeline, or call 911 in an emergency.
+            </p>
+          </div>
+        </Reveal>
+      </div>
+    </div>
+  </section>
+
+  <CTASection
+    kicker="Prayer changes things"
+    title="Want to learn to pray?"
+    lede="Our prayer ministry runs mentoring for anyone who wants to grow more confident in prayer. It's the ministry underneath everything else we do."
+    primary={{ label: 'Explore the prayer ministry', href: '/ministries/prayer' }}
+    secondary={{ label: 'Plan a visit', href: '/visit' }}
+  />
+</Layout>

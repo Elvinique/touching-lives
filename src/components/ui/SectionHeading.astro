@@ -1,0 +1,34 @@
+---
+interface Props {
+  kicker?: string;
+  title: string;
+  lede?: string;
+  align?: 'left' | 'center';
+  /** dark = on a dark background */
+  tone?: 'light' | 'dark';
+  /** title = standard section heading; editorial = oversized headline */
+  size?: 'title' | 'editorial';
+  id?: string;
+}
+
+const { kicker, title, lede, align = 'left', tone = 'light', size = 'title', id } = Astro.props;
+
+const wrapClasses = align === 'center' ? 'mx-auto max-w-2xl text-center' : 'max-w-3xl';
+const kickerColor = tone === 'dark' ? 'text-gold-300' : 'text-terra-600';
+const titleColor = tone === 'dark' ? 'text-cream' : 'text-ink';
+const titleSize = size === 'editorial' ? 'text-editorial' : 'text-title';
+const ledeColor = tone === 'dark' ? 'text-cream/70' : 'text-muted';
+---
+
+<div class={`reveal ${wrapClasses}`}>
+  {kicker && (
+    <p class={`kicker ${kickerColor}`}>
+      <span class="h-1.5 w-1.5 rounded-full bg-current" aria-hidden="true" />
+      {kicker}
+    </p>
+  )}
+  <h2 id={id} class={`mt-4 font-display ${titleSize} text-balance ${titleColor}`}>
+    {title}
+  </h2>
+  {lede && <p class={`mt-4 text-lg text-pretty ${ledeColor}`}>{lede}</p>}
+</div>

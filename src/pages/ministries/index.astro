@@ -1,0 +1,70 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import PageHero from '@/components/sections/PageHero.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import Reveal from '@/components/ui/Reveal.astro';
+import MinistryCard from '@/components/cards/MinistryCard.astro';
+import CTASection from '@/components/sections/CTASection.astro';
+
+const ministries = (await getCollection('ministries')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Layout
+  title="Ministries"
+  description="Kids, students, young adults, life groups, worship, missions and prayer — explore every ministry at Touching Lives Church."
+>
+  <PageHero
+    image="/art/hero-ministries.svg"
+    kicker="Ministries"
+    title="There's a place for every age — and every you."
+    lede="From nursery to grandparent, from first-time volunteer to lifelong missionary: these are the teams and communities that make Touching Lives home."
+  />
+
+  <section class="wrap py-16 lg:py-24">
+    <div class="grid gap-6 md:grid-cols-2">
+      {
+        ministries.map((ministry, index) => (
+          <Reveal delay={(index % 2) * 90} class={ministry.data.featured && index === 0 ? 'md:col-span-2' : ''}>
+            <MinistryCard
+              ministry={{
+                title: ministry.data.title,
+                tagline: ministry.data.tagline,
+                audience: ministry.data.audience,
+                image: ministry.data.image,
+                href: `/ministries/${ministry.id}`,
+              }}
+            />
+          </Reveal>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="bg-sand/60 py-16 lg:py-24">
+    <div class="wrap grid items-center gap-10 lg:grid-cols-2">
+      <SectionHeading
+        kicker="Not sure where you fit?"
+        title="Start with a conversation."
+        lede="Every ministry leader would love to hear from you. Tell us a little about your season of life and your interests, and we'll point you to the best next step — no pressure, no commitment."
+      />
+      <Reveal delay={100}>
+        <div class="flex flex-col gap-4 rounded-[1.6rem] bg-pine-950 p-9 text-cream shadow-lift sm:flex-row sm:items-center lg:flex-col xl:flex-row">
+          <div class="flex-1">
+            <h3 class="font-display text-xl">Prefer to talk to a human?</h3>
+            <p class="mt-2 text-sm text-cream/70">We answer every message within a couple of days.</p>
+          </div>
+          <a href="/contact" class="btn btn-primary btn-md shrink-0">Get in touch</a>
+        </div>
+      </Reveal>
+    </div>
+  </section>
+
+  <CTASection
+    kicker="Your people are waiting"
+    title="Find your place to serve."
+    lede="Serving is how many of us found our people — and the most surprising joy of church life."
+    primary={{ label: 'Explore ministries', href: '/ministries' }}
+    secondary={{ label: 'Start the Growth Track', href: '/events/growth-track' }}
+  />
+</Layout>

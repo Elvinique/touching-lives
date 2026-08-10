@@ -1,0 +1,128 @@
+---
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+import { site } from '@/config/site';
+import '@/styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  jsonLd?: Record<string, unknown>[];
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description = site.description,
+  image = '/og.png',
+  type = 'website',
+  jsonLd = [],
+  noindex = false,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const pageTitle = title === site.name ? title : `${title} | ${site.name}`;
+const configuredSocials = Object.values(site.social).filter(Boolean);
+
+const churchLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Church',
+  name: site.legalName,
+  url: site.url,
+  logo: `${site.url}/logo-mark.svg`,
+  image: `${site.url}/og.png`,
+  telephone: site.phone,
+  email: site.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.address.street,
+    addressLocality: site.address.city,
+    addressRegion: site.address.state,
+    postalCode: site.address.zip,
+    addressCountry: 'US',
+  },
+  openingHours: 'Su 09:00-12:30',
+  sameAs: configuredSocials,
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(image, Astro.site).toString()} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(image, Astro.site).toString()} />
+
+    <meta name="theme-color" content="#0e2321" />
+    <script is:inline>
+      // Gates the scroll-reveal hidden state (see .js .reveal in global.css):
+      // without JavaScript, all content is visible.
+      document.documentElement.classList.add('js');
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(churchLd)} />
+    {
+      jsonLd.map((data) => (
+        <script is:inline type="application/ld+json" set:html={JSON.stringify(data)} />
+      ))
+    }
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<script>
+  // Scroll-reveal observer — created once per page. Content is fully visible
+  // without JS or with prefers-reduced-motion (see the .reveal CSS fallback).
+  if (!window.__revealObserver) {
+    const io =
+      'IntersectionObserver' in window
+        ? new IntersectionObserver(
+            (entries) => {
+              for (const entry of entries) {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add('is-visible');
+                  io?.unobserve(entry.target);
+                }
+              }
+            },
+            { threshold: 0.12, rootMargin: '0px 0px -6% 0px' },
+          )
+        : null;
+    window.__revealObserver = io;
+  }
+  requestAnimationFrame(() => {
+    const observer = window.__revealObserver;
+    const els = document.querySelectorAll('.reveal:not(.is-visible)');
+    if (!observer || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      els.forEach((el) => el.classList.add('is-visible'));
+    } else {
+      els.forEach((el) => observer.observe(el));
+    }
+  });
+</script>

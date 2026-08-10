@@ -1,0 +1,30 @@
+---
+import { Plus } from '@lucide/astro';
+
+interface Props {
+  items: readonly { q: string; a: string }[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="divide-y divide-line overflow-hidden rounded-[1.6rem] border border-line bg-white shadow-soft">
+  {
+    items.map((item) => (
+      <details class="group px-6 py-1 open:bg-sand/30 sm:px-8">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-5 py-5 [&::-webkit-details-marker]:hidden">
+          <h3 class="font-display text-lg text-ink transition-colors group-hover:text-terra-700 group-open:text-terra-700">
+            {item.q}
+          </h3>
+          <span
+            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sand text-pine-900 transition-transform duration-300 group-open:rotate-45 group-open:bg-terra-500 group-open:text-white"
+            aria-hidden="true"
+          >
+            <Plus class="h-4 w-4" />
+          </span>
+        </summary>
+        <p class="max-w-2xl pb-6 text-pretty leading-relaxed text-muted">{item.a}</p>
+      </details>
+    ))
+  }
+</div>

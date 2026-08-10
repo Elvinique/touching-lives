@@ -1,0 +1,14 @@
+---
+interface Props {
+  /** Stagger delay in ms */
+  delay?: number;
+  class?: string;
+}
+
+const { delay = 0, class: className } = Astro.props;
+---
+
+<!-- The reveal observer is registered once per page in Layout.astro. -->
+<div class:list={['reveal', className]} style={`--reveal-delay:${delay}ms`}>
+  <slot />
+</div>

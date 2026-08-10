@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Light and sound in the dark" preserveAspectRatio="xMidYMid slice">
+<defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#230E1E"/>
+    <stop offset="1" stop-color="#5B2A48"/>
+  </linearGradient>
+  <radialGradient id="glow" cx="0.5" cy="0.42" r="0.62">
+    <stop offset="0" stop-color="#FFD0C0" stop-opacity="0.5"/>
+    <stop offset="1" stop-color="#FFD0C0" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="vig" cx="0.5" cy="0.5" r="0.75">
+    <stop offset="0.6" stop-color="#000" stop-opacity="0"/>
+    <stop offset="1" stop-color="#000" stop-opacity="0.32"/>
+  </radialGradient>
+  <filter id="grain" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+    <feComponentTransfer><feFuncA type="linear" slope="0.05"/></feComponentTransfer>
+  </filter>
+</defs>
+<rect width="1200" height="800" fill="url(#sky)"/>
+<rect width="1200" height="800" fill="url(#glow)"/>
+<polygon points="48,0 216.00000000000003,0 276.00000000000006,463.99999999999994 0,463.99999999999994" fill="#FFD0C0" opacity="0.09"/><polygon points="240,0 348.00000000000006,0 408.00000000000006,463.99999999999994 192,463.99999999999994" fill="#FFD0C0" opacity="0.07"/><polygon points="396,0 636,0 696.0000000000001,463.99999999999994 348.00000000000006,463.99999999999994" fill="#FFD0C0" opacity="0.12"/><polygon points="660,0 804,0 864.0000000000001,463.99999999999994 612,463.99999999999994" fill="#FFD0C0" opacity="0.08"/><polygon points="840,0 1104,0 1164,463.99999999999994 791.9999999999999,463.99999999999994" fill="#FFD0C0" opacity="0.11"/><polygon points="1128,0 1272,0 1332.0000000000002,463.99999999999994 1080,463.99999999999994" fill="#FFD0C0" opacity="0.09"/><ellipse cx="624" cy="463.99999999999994" rx="600" ry="128" fill="#FFD0C0" opacity="0.28"/><path d="M0 463.99999999999994 Q 300 423.99999999999994 600 455.99999999999994 T 1200 431.99999999999994 V 624 Q 600 560 0 624 Z" fill="#6E3A5C" opacity="0.55"/><path d="M0 656 Q 216 592 432 656 T 936 640 T 1200 664 V 800 H 0 Z" fill="#1E0C19"/><circle cx="885.3866783020253" cy="693.9851207092826" r="4.8" fill="#FFD0C0" opacity="0.5"/><circle cx="803.1074210526158" cy="671.1538426377125" r="4.8" fill="#FFD0C0" opacity="0.5"/><circle cx="174.9221264435173" cy="686.3959422757697" r="4.8" fill="#FFD0C0" opacity="0.5"/><circle cx="721.0320702926824" cy="671.1960649171622" r="4.8" fill="#FFD0C0" opacity="0.5"/><circle cx="758.4238086976178" cy="715.541790041135" r="4.8" fill="#FFD0C0" opacity="0.5"/><circle cx="292.1525896557158" cy="694.3482202106404" r="4.8" fill="#FFD0C0" opacity="0.5"/><circle cx="438.8062195475748" cy="666.2485551251267" r="4.8" fill="#FFD0C0" opacity="0.5"/><circle cx="469.79182408131055" cy="710.6869680368709" r="4.8" fill="#FFD0C0" opacity="0.5"/><circle cx="403.2949741316355" cy="665.515719011804" r="4.8" fill="#FFD0C0" opacity="0.5"/><circle cx="823.487008238648" cy="167.52390126076833" r="2.2429038236227656" fill="#FFF" opacity="0.5293085187052462"/><circle cx="901.4332647549644" cy="94.0394888838453" r="1.3930303914851265" fill="#FFF" opacity="0.5404776952240054"/><circle cx="826.5056170539245" cy="201.84054662330993" r="1.62728734916796" fill="#FFF" opacity="0.3507393869325167"/><circle cx="891.1802546790025" cy="104.46773994850899" r="1.6017820348304395" fill="#FFF" opacity="0.4437132158282391"/><circle cx="100.95816158496537" cy="64.87210362816867" r="1.3864200212490108" fill="#FFF" opacity="0.3067500839666679"/><circle cx="140.38763440047506" cy="237.25274200293023" r="2.022422109510686" fill="#FFF" opacity="0.41345439989976934"/><circle cx="493.0465684607462" cy="100.64644197108916" r="2.368940108466207" fill="#FFF" opacity="0.3110243946361009"/><circle cx="509.7446133326657" cy="43.69682889852845" r="1.9134358760963797" fill="#FFF" opacity="0.46159728512139825"/><circle cx="478.96546399740305" cy="101.3902469417384" r="1.8183590051767418" fill="#FFF" opacity="0.2817527897220337"/><circle cx="943.5474552681455" cy="51.884211845719285" r="1.3749579203070723" fill="#FFF" opacity="0.5308551142109832"/><circle cx="105.41052374176027" cy="96.18006529654511" r="2.0079457045591242" fill="#FFF" opacity="0.27627961173093685"/><circle cx="195.92940772286534" cy="221.16943728141294" r="2.2726405431404846" fill="#FFF" opacity="0.22293144103831686"/><circle cx="827.5410202790948" cy="63.902338556275" r="1.9373895693105372" fill="#FFF" opacity="0.5142837490830654"/><circle cx="1036.784255551544" cy="132.66534898052362" r="1.2595470275367728" fill="#FFF" opacity="0.36888896356786116"/>
+<rect width="1200" height="800" filter="url(#grain)"/>
+<rect width="1200" height="800" fill="url(#vig)"/>
+</svg>

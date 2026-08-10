@@ -1,0 +1,42 @@
+---
+import Reveal from '@/components/ui/Reveal.astro';
+
+interface Props {
+  kicker?: string;
+  title: string;
+  lede?: string;
+  primary?: { label: string; href: string };
+  secondary?: { label: string; href: string };
+  image?: string;
+}
+
+const { kicker = 'Join us', title, lede, primary = { label: 'Plan Your Visit', href: '/visit' }, secondary, image = '/art/cta-join.svg' } = Astro.props;
+---
+
+<section class="wrap py-16 lg:py-24">
+  <Reveal>
+    <div class="relative overflow-hidden rounded-[2rem] bg-pine-950 shadow-lift">
+      <img src={image} alt="" loading="lazy" class="absolute inset-0 h-full w-full object-cover opacity-40" />
+      <div class="absolute inset-0 bg-gradient-to-r from-pine-950 via-pine-950/75 to-pine-950/30" aria-hidden="true"></div>
+
+      <div class="relative flex flex-col items-start gap-8 p-8 sm:p-12 lg:flex-row lg:items-center lg:justify-between lg:p-16">
+        <div class="max-w-2xl">
+          {kicker && (
+            <p class="kicker text-gold-300">
+              <span class="h-1.5 w-1.5 rounded-full bg-current" aria-hidden="true" />
+              {kicker}
+            </p>
+          )}
+          <h2 class="mt-4 font-display text-title text-balance text-cream">{title}</h2>
+          {lede && <p class="mt-4 max-w-xl text-pretty text-cream/70">{lede}</p>}
+        </div>
+        <div class="flex flex-col gap-3 sm:flex-row">
+          <a href={primary.href} class="btn btn-primary btn-lg">{primary.label}</a>
+          {secondary && (
+            <a href={secondary.href} class="btn btn-outline-light btn-lg">{secondary.label}</a>
+          )}
+        </div>
+      </div>
+    </div>
+  </Reveal>
+</section>

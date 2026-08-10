@@ -1,0 +1,62 @@
+---
+import { ArrowRight, MapPin, Clock3 } from '@lucide/astro';
+import { formatDay, formatMonth } from '@/lib/dates';
+
+export interface EventCardData {
+  title: string;
+  date: Date;
+  time: string;
+  location: string;
+  category: string;
+  description: string;
+  image: string;
+  href: string;
+}
+
+interface Props {
+  event: EventCardData;
+  /** Muted treatment for past events */
+  past?: boolean;
+  class?: string;
+}
+
+const { event, past = false, class: className } = Astro.props;
+---
+
+<a
+  href={event.href}
+  class={`group relative flex flex-col overflow-hidden rounded-[1.4rem] bg-white shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:shadow-lift ${past ? 'opacity-70 hover:opacity-100' : ''} ${className ?? ''}`}
+>
+  <div class="relative aspect-[16/9] overflow-hidden">
+    <img
+      src={event.image}
+      alt=""
+      loading="lazy"
+      class={`h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 ${past ? 'grayscale-[0.6]' : ''}`}
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-pine-950/80 via-transparent to-transparent" aria-hidden="true"></div>
+
+    <!-- date block -->
+    <span class="absolute left-4 top-4 flex flex-col items-center rounded-2xl bg-cream/95 px-3.5 py-2 text-center shadow-soft">
+      <span class="text-[0.65rem] font-bold uppercase tracking-widest text-terra-600">{formatMonth(event.date)}</span>
+      <span class="font-display text-2xl font-semibold leading-none text-pine-950">{formatDay(event.date)}</span>
+    </span>
+
+    <span class="chip chip-dark absolute bottom-4 left-4">{event.category}</span>
+  </div>
+
+  <div class="flex flex-1 flex-col gap-3 p-6">
+    <h3 class="font-display text-xl leading-snug text-ink transition-colors group-hover:text-terra-700">
+      {event.title}
+    </h3>
+    <p class="meta">
+      <span><Clock3 aria-hidden="true" />{event.time}</span>
+      <span><MapPin aria-hidden="true" />{event.location}</span>
+    </p>
+    <p class="line-clamp-2 text-pretty text-sm leading-relaxed text-muted">{event.description}</p>
+    <span class="card-link">
+      {past ? 'View recap' : 'Event details'}
+      <ArrowRight aria-hidden="true" />
+    </span>
+  </div>
+</a>

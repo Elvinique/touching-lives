@@ -1,0 +1,136 @@
+---
+import { Play, User, CalendarDays, BookOpen, Clock3, ArrowRight, Radio } from '@lucide/astro';
+import type { SermonCardData } from '@/components/cards/SermonCard.astro';
+import SermonCard from '@/components/cards/SermonCard.astro';
+import { formatLongDate } from '@/lib/dates';
+import Reveal from '@/components/ui/Reveal.astro';
+import { media } from '@/data/media';
+
+interface Props {
+  sermon: SermonCardData;
+  /** Additional recent messages shown as compact cards beneath the featured message. */
+  recent?: SermonCardData[];
+}
+
+const { sermon, recent = [] } = Astro.props;
+const playHref = sermon.videoUrl ?? sermon.href;
+const actionLabel = sermon.videoUrl ? 'Watch' : 'Read';
+---
+
+<section class="relative overflow-hidden bg-pine-950 py-16 lg:py-24">
+  <img
+    src="/art/hero-messages.svg"
+    alt=""
+    loading="lazy"
+    class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-15"
+  />
+  <div class="absolute inset-0 bg-gradient-to-b from-pine-950/60 via-transparent to-pine-950" aria-hidden="true"></div>
+
+  <div class="wrap relative">
+    <Reveal>
+      <div class="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+        <!-- Media -->
+        <a
+          href={playHref}
+          class="group relative block overflow-hidden rounded-[1.6rem] shadow-lift"
+          aria-label={`${actionLabel} ${sermon.title}`}
+        >
+          <img
+            src={media.featuredSermon.src}
+            alt=""
+            loading="lazy"
+            style={{ aspectRatio: media.featuredSermon.aspect }}
+            class="w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-pine-950/90 via-pine-950/20 to-transparent" aria-hidden="true"></div>
+
+          <span class="chip chip-gold absolute left-5 top-5">{sermon.series}</span>
+          {
+            sermon.duration && (
+              <span class="chip chip-dark absolute right-5 top-5">
+                <Clock3 class="h-3 w-3" aria-hidden="true" />
+                {sermon.duration}
+              </span>
+            )
+          }
+
+          <span
+            class="absolute inset-0 m-auto flex h-20 w-20 items-center justify-center rounded-full bg-terra-500 text-white shadow-glow transition-transform duration-300 group-hover:scale-110"
+            aria-hidden="true"
+          >
+            <Play class="ml-1 h-8 w-8 fill-current" />
+          </span>
+
+          <span class="absolute bottom-5 left-5 flex items-center gap-2 text-sm font-semibold text-cream">
+            <Radio class="h-4 w-4 text-terra-400" aria-hidden="true" />
+            Latest message
+          </span>
+        </a>
+
+        <!-- Copy -->
+        <div>
+          <p class="kicker text-gold-300">
+            <span class="h-1.5 w-1.5 rounded-full bg-current" aria-hidden="true" />
+            This week's message
+          </p>
+          <h2 class="mt-4 font-display text-title text-balance text-cream">{sermon.title}</h2>
+
+          <p class="meta mt-5">
+            <span class="text-cream/75"><User aria-hidden="true" />{sermon.speaker}</span>
+            <span class="text-cream/75"><CalendarDays aria-hidden="true" />{formatLongDate(sermon.date)}</span>
+            {sermon.scripture && (
+              <span class="text-cream/75"><BookOpen aria-hidden="true" />{sermon.scripture}</span>
+            )}
+          </p>
+
+          <p class="mt-5 text-pretty leading-relaxed text-cream/70">{sermon.description}</p>
+
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <a href={playHref} class="btn btn-primary btn-lg">
+              <Play class="h-4 w-4 fill-current" aria-hidden="true" />
+              {sermon.videoUrl ? 'Watch the message' : 'Read this message'}
+            </a>
+            <a href="/messages" class="btn btn-ghost btn-lg text-cream hover:bg-cream/10">
+              Explore all messages
+              <ArrowRight class="h-4 w-4" aria-hidden="true" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </Reveal>
+
+    <!-- Recent messages -->
+    {
+      recent.length > 0 && (
+        <Reveal delay={140}>
+          <div class="mt-16 border-t border-cream/10 pt-10">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p class="kicker text-gold-300">
+                  <span class="h-1.5 w-1.5 rounded-full bg-current" aria-hidden="true" />
+                  Keep listening
+                </p>
+                <h3 class="mt-3 font-display text-2xl text-cream">Recent messages</h3>
+              </div>
+              <a
+                href="/messages"
+                class="inline-flex items-center gap-1.5 text-sm font-semibold text-cream/70 transition-colors hover:text-cream"
+              >
+                View all messages
+                <ArrowRight class="h-4 w-4" aria-hidden="true" />
+              </a>
+            </div>
+
+            <div class="mt-8 grid gap-6 md:grid-cols-3">
+              {
+                recent.map((sermonCard) => (
+                  <SermonCard sermon={sermonCard} />
+                ))
+              }
+            </div>
+          </div>
+        </Reveal>
+      )
+    }
+  </div>
+</section>

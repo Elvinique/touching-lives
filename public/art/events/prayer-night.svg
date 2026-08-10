@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="A candle flame in the dark" preserveAspectRatio="xMidYMid slice">
+<defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#0C211F"/>
+    <stop offset="1" stop-color="#24544A"/>
+  </linearGradient>
+  <radialGradient id="glow" cx="0.5" cy="0.42" r="0.62">
+    <stop offset="0" stop-color="#F5C878" stop-opacity="0.5"/>
+    <stop offset="1" stop-color="#F5C878" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="vig" cx="0.5" cy="0.5" r="0.75">
+    <stop offset="0.6" stop-color="#000" stop-opacity="0"/>
+    <stop offset="1" stop-color="#000" stop-opacity="0.32"/>
+  </radialGradient>
+  <filter id="grain" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+    <feComponentTransfer><feFuncA type="linear" slope="0.05"/></feComponentTransfer>
+  </filter>
+</defs>
+<rect width="1200" height="800" fill="url(#sky)"/>
+<rect width="1200" height="800" fill="url(#glow)"/>
+<circle cx="600" cy="272" r="216" fill="#F5C878" opacity="0.4"/><circle cx="600" cy="272" r="96" fill="#F5C878" opacity="0.6"/><path d="M 600 96 C 666 208, 654 304, 600 336 C 546 304, 534 208, 600 96 Z" fill="#E4572E" opacity="0.95"/><path d="M 600 192 C 624 256, 619.2 304, 600 320 C 580.8 304, 576 256, 600 192 Z" fill="#F5C878" opacity="0.9"/><rect x="578.4" y="352" width="43.199999999999996" height="240" rx="9.6" fill="#CFE4DA" opacity="0.85"/><rect x="571.2" y="576" width="57.6" height="16" rx="7.2" fill="#F5C878" opacity="0.7"/><path d="M0 688 Q 420 648 816.0000000000001 688 T 1200 672 V 800 H 0 Z" fill="#0A1A18" opacity="0.92"/><circle cx="57.38973868438111" cy="109.97976347156535" r="1.9560706980956053" fill="#FFF" opacity="0.39801211083954796"/><circle cx="199.4687068574164" cy="161.22138567058508" r="2.0635208171731607" fill="#FFF" opacity="0.2563864637653729"/><circle cx="85.28735122894764" cy="211.76710462498588" r="1.7029947189867987" fill="#FFF" opacity="0.2048975722381863"/><circle cx="991.6115722096725" cy="228.33592004712773" r="1.2903494946687273" fill="#FFF" opacity="0.17248259333034188"/><circle cx="565.0184438848038" cy="239.41367098330107" r="2.0326689754557714" fill="#FFF" opacity="0.22711126991754646"/><circle cx="1156.24527829641" cy="234.87522305013738" r="1.3378978695789154" fill="#FFF" opacity="0.188281043872009"/><circle cx="389.0040161066477" cy="210.25474695073555" r="1.077588882384926" fill="#FFF" opacity="0.3439703054531783"/><circle cx="57.732191489217286" cy="203.45099065079592" r="1.911641515587632" fill="#FFF" opacity="0.4309523101357584"/><circle cx="635.912611358661" cy="191.35761854631662" r="1.7422926677891155" fill="#FFF" opacity="0.34915119271110384"/><circle cx="500.2432921435473" cy="100.13094301846994" r="1.2347252024643975" fill="#FFF" opacity="0.41086555577258754"/>
+<rect width="1200" height="800" filter="url(#grain)"/>
+<rect width="1200" height="800" fill="url(#vig)"/>
+</svg>

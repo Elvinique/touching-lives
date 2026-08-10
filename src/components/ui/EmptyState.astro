@@ -1,0 +1,21 @@
+---
+import { Sparkles } from '@lucide/astro';
+
+interface Props {
+  title: string;
+  lede?: string;
+}
+
+const { title, lede } = Astro.props;
+---
+
+<div class="rounded-[2rem] border-2 border-dashed border-line bg-sand/50 px-8 py-16 text-center">
+  <span class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-pine-950 text-gold-300">
+    <Sparkles class="h-7 w-7" aria-hidden="true" />
+  </span>
+  <h3 class="mt-5 font-display text-2xl text-ink">{title}</h3>
+  {lede && <p class="mx-auto mt-2 max-w-md text-pretty text-sm text-muted">{lede}</p>}
+  <div class="mt-7">
+    <slot />
+  </div>
+</div>

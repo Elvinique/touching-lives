@@ -1,0 +1,451 @@
+/* ------------------------------------------------------------------ */
+/* Fonts (self-hosted, no runtime requests)                            */
+/* ------------------------------------------------------------------ */
+@import "@fontsource-variable/fraunces";
+@import "@fontsource-variable/instrument-sans";
+
+/* ------------------------------------------------------------------ */
+/* Tailwind v4 + design tokens                                        */
+/* ------------------------------------------------------------------ */
+@import "tailwindcss";
+
+@theme {
+  /* Typography */
+  --font-sans: "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces Variable", ui-serif, Georgia, serif;
+
+  --text-display: clamp(2.6rem, 5.6vw, 4.75rem);
+  --text-display--line-height: 1.04;
+  --text-display--letter-spacing: -0.02em;
+  --text-hero: clamp(2.1rem, 3.8vw, 3.25rem);
+  --text-hero--line-height: 1.08;
+  --text-hero--letter-spacing: -0.015em;
+  --text-title: clamp(1.7rem, 2.6vw, 2.4rem);
+  --text-title--line-height: 1.12;
+  --text-title--letter-spacing: -0.01em;
+  --text-editorial: clamp(1.9rem, 3.2vw, 2.85rem);
+  --text-editorial--line-height: 1.12;
+  --text-editorial--letter-spacing: -0.02em;
+
+  /* Brand palette — warm neutral base + deep pine + terracotta accent */
+  --color-cream: #faf6ee;
+  --color-sand: #f2eadb;
+  --color-clay: #e8ddc9;
+  --color-ink: #211c15;
+  --color-muted: #6e6559;
+  --color-line: #e6dbc7;
+
+  --color-pine-50: #f0f6f4;
+  --color-pine-100: #dcebe5;
+  --color-pine-200: #bad6cc;
+  --color-pine-300: #8db9ac;
+  --color-pine-400: #5e9989;
+  --color-pine-500: #417d6e;
+  --color-pine-600: #316358;
+  --color-pine-700: #2a5048;
+  --color-pine-800: #24413c;
+  --color-pine-900: #16312d;
+  --color-pine-950: #0e2321;
+
+  --color-terra-50: #fdf4f0;
+  --color-terra-100: #fae6dd;
+  --color-terra-200: #f4c8b6;
+  --color-terra-300: #eca587;
+  --color-terra-400: #e27c55;
+  --color-terra-500: #de5d32;
+  --color-terra-600: #c94822;
+  --color-terra-700: #a93a1f;
+  --color-terra-800: #8a3120;
+  --color-terra-900: #712b1f;
+
+  --color-gold-200: #f7e3b8;
+  --color-gold-300: #f0ce82;
+  --color-gold-400: #e7ac46;
+  --color-gold-500: #d99224;
+
+  --color-sage-100: #e4ecdd;
+  --color-sage-300: #b6c8a4;
+  --color-sage-500: #7c9977;
+  --color-sage-700: #4e6b4c;
+
+  /* Elevation */
+  --shadow-soft: 0 10px 30px -14px rgb(14 35 33 / 0.22);
+  --shadow-lift: 0 24px 50px -18px rgb(14 35 33 / 0.32);
+  --shadow-glow: 0 0 0 1px rgb(222 93 50 / 0.18), 0 12px 34px -12px rgb(222 93 50 / 0.4);
+
+  /* Motion */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ------------------------------------------------------------------ */
+/* Base                                                                */
+/* ------------------------------------------------------------------ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+  }
+
+  body {
+    @apply bg-cream font-sans text-ink antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--color-terra-500);
+    color: #fff;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-terra-500);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Utilities                                                           */
+/* ------------------------------------------------------------------ */
+@utility wrap {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 80rem;
+  padding-inline: 1.25rem;
+
+  @media (min-width: 640px) {
+    padding-inline: 2rem;
+  }
+  @media (min-width: 1024px) {
+    padding-inline: 3rem;
+  }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Kicker — the small uppercase label above section titles */
+@utility kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* ------------------------------------------------------------------ */
+/* Scroll reveal                                                       */
+/* ------------------------------------------------------------------ */
+/* Hidden state is gated behind html.js (set by a tiny inline script in
+   Layout) so content is fully visible without JavaScript. */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(1.4rem);
+  transition:
+    opacity 0.7s var(--ease-out-soft),
+    transform 0.7s var(--ease-out-soft);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Hero entrance                                                       */
+/* ------------------------------------------------------------------ */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+    filter: blur(5px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+.hero-rise {
+  animation: rise 0.9s var(--ease-out-soft) both;
+  animation-delay: var(--d, 0ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-rise {
+    animation: none;
+  }
+}
+
+/* Slow drift for large background art (subtle, disabled for reduced motion) */
+@keyframes drift {
+  from {
+    transform: scale(1.02) translateY(0);
+  }
+  to {
+    transform: scale(1.06) translateY(-1.5%);
+  }
+}
+.animate-drift {
+  animation: drift 22s ease-in-out infinite alternate;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-drift {
+    animation: none;
+  }
+}
+
+/* One-time entrance for framed imagery (photos/art in cards) */
+@keyframes img-enter {
+  from {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.img-enter {
+  animation: img-enter 1s var(--ease-out-soft) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .img-enter {
+    animation: none;
+  }
+}
+
+/* Slow, subtle light sweep for the hero (reduced-motion safe) */
+@keyframes light-sweep {
+  from {
+    transform: translateX(-6%);
+    opacity: 0.45;
+  }
+  to {
+    transform: translateX(6%);
+    opacity: 0.85;
+  }
+}
+.light-sweep {
+  animation: light-sweep 16s ease-in-out infinite alternate;
+}
+@media (prefers-reduced-motion: reduce) {
+  .light-sweep {
+    animation: none;
+  }
+}
+
+/* Film grain texture (SVG noise data-URI, no network request) */
+.grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  mix-blend-mode: overlay;
+}
+
+/* ------------------------------------------------------------------ */
+/* Rich text (rendered markdown content)                               */
+/* ------------------------------------------------------------------ */
+.rich {
+  @apply text-[1.02rem] leading-relaxed text-pine-950/80;
+}
+.rich > * + * {
+  margin-top: 1.1em;
+}
+.rich h2 {
+  @apply font-display text-title text-ink;
+  margin-top: 1.6em;
+}
+.rich h3 {
+  @apply font-display text-xl text-ink;
+  margin-top: 1.4em;
+}
+.rich a {
+  @apply font-medium text-terra-700 underline decoration-terra-300 underline-offset-4 transition-colors hover:text-terra-600;
+}
+.rich ul {
+  @apply list-disc space-y-2 pl-5 marker:text-terra-500;
+}
+.rich ol {
+  @apply list-decimal space-y-2 pl-5 marker:text-terra-500;
+}
+.rich blockquote {
+  @apply border-l-4 border-gold-400 bg-sand/60 py-3 pl-5 pr-4 font-display text-lg italic text-pine-900;
+}
+.rich strong {
+  @apply font-semibold text-ink;
+}
+.rich em {
+  @apply italic;
+}
+
+/* ------------------------------------------------------------------ */
+/* Components                                                          */
+/* ------------------------------------------------------------------ */
+@layer components {
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-300;
+    @apply focus-visible:outline-2 focus-visible:outline-offset-2;
+  }
+  .btn svg {
+    transition: transform 0.3s var(--ease-out-soft);
+  }
+  /* Only nudge a trailing arrow icon, never a leading/centered icon */
+  .btn:hover > svg:last-child,
+  .btn:focus-visible > svg:last-child {
+    transform: translateX(3px);
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+  .btn-md {
+    @apply px-6 py-3 text-sm;
+  }
+  .btn-lg {
+    @apply px-7 py-3.5 text-[0.95rem];
+  }
+  .btn-primary {
+    @apply bg-terra-500 text-white shadow-glow hover:bg-terra-600;
+  }
+  .btn-light {
+    @apply bg-cream text-pine-950 hover:bg-gold-200;
+  }
+  .btn-outline-light {
+    @apply border border-cream/40 text-cream hover:border-cream/80 hover:bg-cream/10;
+  }
+  .btn-outline {
+    @apply border border-pine-950/25 text-pine-950 hover:border-pine-950/60 hover:bg-pine-950/5;
+  }
+  .btn-ghost {
+    @apply text-pine-900 hover:bg-pine-950/5;
+  }
+  .btn[disabled] {
+    @apply cursor-not-allowed opacity-60;
+  }
+
+  /* Chips / badges */
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.14em];
+  }
+  .chip-dark {
+    @apply bg-pine-950/70 text-cream backdrop-blur;
+  }
+  .chip-gold {
+    @apply bg-gold-300/95 text-pine-950;
+  }
+  .chip-cream {
+    @apply bg-cream/95 text-pine-900;
+  }
+  .chip-terra {
+    @apply bg-terra-500 text-white;
+  }
+  .chip-sand {
+    @apply bg-sand text-pine-900;
+  }
+
+  /* Forms */
+  .label {
+    @apply mb-2 block text-sm font-semibold text-pine-950;
+  }
+  .input {
+    @apply w-full rounded-2xl border border-line bg-white px-4 py-3 text-[0.95rem] text-ink shadow-sm transition-all duration-300;
+    @apply placeholder:text-muted/60;
+  }
+  .input:hover {
+    @apply border-pine-300;
+  }
+  .input:focus {
+    @apply border-terra-500 outline-none ring-4 ring-terra-500/15;
+  }
+  .input[aria-invalid="true"] {
+    @apply border-terra-600 bg-terra-50;
+  }
+  .checkbox {
+    @apply mt-1 h-5 w-5 shrink-0 cursor-pointer appearance-none rounded-md border-2 border-pine-300 bg-white transition-colors;
+  }
+  .checkbox:checked {
+    @apply border-terra-500 bg-terra-500;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M4 10.5l4 4 8-9' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-size: 100%;
+  }
+  .error {
+    @apply mt-1.5 block text-sm font-medium text-terra-700;
+  }
+  .select-wrap {
+    @apply relative;
+  }
+  .select-wrap::after {
+    content: "";
+    @apply pointer-events-none absolute right-4 top-1/2 h-2 w-2 -translate-y-1/2 rotate-45 border-b-2 border-r-2 border-pine-900/50;
+  }
+  select.input {
+    @apply appearance-none pr-10;
+  }
+
+  /* Status messages */
+  .status-success {
+    @apply flex items-center gap-3 rounded-2xl border border-sage-300 bg-sage-100 px-5 py-4 text-sm font-medium text-sage-700;
+  }
+  .status-info {
+    @apply flex items-start gap-3 rounded-2xl border border-gold-300/60 bg-gold-200/40 px-5 py-4 text-sm text-pine-900;
+  }
+  .status-error {
+    @apply flex items-center gap-3 rounded-2xl border border-terra-200 bg-terra-50 px-5 py-4 text-sm font-medium text-terra-800;
+  }
+
+  /* Meta lines (cards) */
+  .meta {
+    @apply flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium text-muted;
+  }
+  .meta svg {
+    @apply h-3.5 w-3.5 text-terra-500;
+  }
+  .meta span {
+    @apply inline-flex items-center gap-1;
+  }
+
+  /* Card link affordance */
+  .card-link {
+    @apply mt-auto inline-flex items-center gap-1.5 pt-1 text-sm font-semibold text-terra-600 transition-colors group-hover:text-terra-500;
+  }
+  .card-link svg {
+    @apply h-4 w-4 transition-transform duration-300 group-hover:translate-x-1;
+  }
+
+  /* Skip link */
+  .skip-link {
+    @apply absolute left-4 top-4 z-[100] -translate-y-24 rounded-full bg-terra-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lift transition-transform;
+  }
+  .skip-link:focus {
+    @apply translate-y-0;
+  }
+}

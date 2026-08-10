@@ -1,0 +1,63 @@
+---
+import type { AstroComponent } from '@lucide/astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import Reveal from '@/components/ui/Reveal.astro';
+
+export interface JourneyStep {
+  icon: AstroComponent;
+  title: string;
+  description: string;
+}
+
+interface Props {
+  steps: readonly JourneyStep[];
+  kicker?: string;
+  title: string;
+  lede?: string;
+  /** 'sand' renders on the warm sand band; 'pine' renders a dark band. */
+  variant?: 'sand' | 'pine';
+  id?: string;
+}
+
+const { steps, kicker, title, lede, variant = 'sand', id } = Astro.props;
+
+const band = variant === 'pine' ? 'bg-pine-950' : 'bg-sand/60';
+const numberTone = variant === 'pine' ? 'text-gold-300/60' : 'text-terra-400/50';
+const tileTone = variant === 'pine' ? 'bg-cream/10 text-gold-300' : 'bg-pine-950 text-gold-300';
+---
+
+<section id={id} class={`${band} py-16 lg:py-24`}>
+  <div class="wrap">
+    <SectionHeading
+      kicker={kicker}
+      title={title}
+      lede={lede}
+      align="center"
+      tone={variant === 'pine' ? 'dark' : 'light'}
+    />
+
+    <ol class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        steps.map((step, index) => {
+          const Icon = step.icon;
+          return (
+            <li>
+              <Reveal delay={index * 90} class="h-full">
+                <article class="group relative flex h-full flex-col rounded-[1.4rem] border border-line bg-white p-7 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-lift">
+                  <span class={`font-display text-4xl font-semibold ${numberTone}`} aria-hidden="true">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <span class={`mt-4 flex h-11 w-11 items-center justify-center rounded-2xl shadow-soft ${tileTone}`}>
+                    <Icon class="h-5 w-5" aria-hidden="true" />
+                  </span>
+                  <h3 class="mt-5 font-display text-xl text-ink">{step.title}</h3>
+                  <p class="mt-2 text-pretty text-sm leading-relaxed text-muted">{step.description}</p>
+                </article>
+              </Reveal>
+            </li>
+          );
+        })
+      }
+    </ol>
+  </div>
+</section>

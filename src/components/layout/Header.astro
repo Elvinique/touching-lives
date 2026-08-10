@@ -1,0 +1,152 @@
+---
+import { nav } from '@/config/site';
+import { Menu } from '@lucide/astro';
+import Logo from '@/components/ui/Logo.astro';
+import MobileMenu from './MobileMenu.astro';
+
+const pathname = Astro.url.pathname;
+const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href));
+---
+
+<header class="site-header fixed inset-x-0 top-0 z-50 transition-all duration-300" data-header>
+  <div class="wrap flex h-[4.5rem] items-center justify-between gap-6">
+    <Logo />
+
+    <nav class="hidden items-center gap-0.5 lg:flex" aria-label="Primary">
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            aria-current={isActive(item.href) ? 'page' : undefined}
+            class="nav-link relative rounded-full px-3.5 py-2 text-[0.9rem] font-medium transition-colors duration-200 hover:opacity-80"
+            style="color: var(--header-ink, #f7f1e7)"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="hidden items-center gap-3 lg:flex">
+      <a href="/visit" class="btn btn-primary btn-md">
+        Plan Your Visit
+      </a>
+    </div>
+
+    <button
+      type="button"
+      class="flex h-11 w-11 items-center justify-center rounded-full transition-colors hover:opacity-80 lg:hidden"
+      data-menu-open
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      aria-label="Open menu"
+      style="color: var(--header-ink, #f7f1e7)"
+    >
+      <Menu class="h-6 w-6" aria-hidden="true" />
+    </button>
+  </div>
+</header>
+
+<MobileMenu />
+
+<style is:global>
+  /* The header starts transparent over dark heroes, then solidifies on scroll.
+     Colors are driven by CSS variables so child components inherit the state. */
+  .site-header {
+    --header-ink: #f7f1e7;
+    --header-dim: rgb(247 241 231 / 0.65);
+  }
+  .site-header.is-scrolled {
+    --header-ink: #211c15;
+    --header-dim: #6e6559;
+    background: rgb(250 246 238 / 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 10px 30px -14px rgb(14 35 33 / 0.22);
+    border-bottom: 1px solid rgb(230 219 199 / 0.8);
+  }
+  .nav-link[aria-current='page'] {
+    opacity: 1;
+    font-weight: 650;
+  }
+  .nav-link[aria-current='page']::after {
+    content: '';
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: -0.125rem;
+    height: 2px;
+    border-radius: 9999px;
+    background: #de5d32;
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const menu = document.querySelector<HTMLElement>('[data-mobile-menu]');
+  const openBtn = document.querySelector<HTMLButtonElement>('[data-menu-open]');
+  const closeBtn = document.querySelector<HTMLButtonElement>('[data-menu-close]');
+  let lastFocused: HTMLElement | null = null;
+
+  const onScroll = () => {
+    if (!header) return;
+    header.classList.toggle('is-scrolled', window.scrollY > 24);
+  };
+
+  const getFocusables = () =>
+    menu
+      ? Array.from(menu.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])'))
+      : [];
+
+  const openMenu = () => {
+    if (!menu || !openBtn) return;
+    menu.classList.add('open');
+    openBtn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    lastFocused = openBtn;
+    closeBtn?.focus();
+  };
+
+  const closeMenu = () => {
+    if (!menu || !openBtn) return;
+    menu.classList.remove('open');
+    openBtn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+    lastFocused?.focus();
+  };
+
+  openBtn?.addEventListener('click', openMenu);
+  closeBtn?.addEventListener('click', closeMenu);
+
+  document.querySelectorAll('[data-menu-link]').forEach((link) => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeMenu();
+      return;
+    }
+    // Minimal focus trap while the dialog is open.
+    if (event.key === 'Tab' && menu?.classList.contains('open')) {
+      const focusables = getFocusables();
+      if (focusables.length === 0) {
+        event.preventDefault();
+        return;
+      }
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const active = document.activeElement;
+      if (event.shiftKey && (active === first || active === menu)) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+  });
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>

@@ -1,0 +1,143 @@
+---
+import { site } from '@/config/site';
+import { HeartHandshake, ShieldCheck } from '@lucide/astro';
+
+const endpoint = site.forms.prayerEndpoint;
+---
+
+<form class="grid gap-5" data-prayer-form data-endpoint={endpoint} novalidate>
+  <div class="grid gap-5 sm:grid-cols-2">
+    <div>
+      <label class="label" for="prayer-name">Your name</label>
+      <input id="prayer-name" name="name" type="text" autocomplete="name" required minlength="2" placeholder="First name is plenty" class="input" />
+      <p class="error" data-error-for="name" hidden></p>
+    </div>
+    <div>
+      <label class="label" for="prayer-email">Email <span class="font-normal text-muted">(so we can follow up)</span></label>
+      <input id="prayer-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com" class="input" />
+      <p class="error" data-error-for="email" hidden></p>
+    </div>
+  </div>
+
+  <div>
+    <label class="label" for="prayer-request">Prayer request</label>
+    <textarea
+      id="prayer-request"
+      name="request"
+      rows="5"
+      required
+      minlength="10"
+      placeholder="Share as much or as little as you'd like…"
+      class="input resize-y"
+    ></textarea>
+    <p class="error" data-error-for="request" hidden></p>
+  </div>
+
+  <label class="flex cursor-pointer items-start gap-3 text-sm text-pine-950/80">
+    <input type="checkbox" name="contact" class="checkbox" />
+    <span>I'd like someone from our team to reach out and pray with me personally.</span>
+  </label>
+
+  <p class="flex items-center gap-2 text-xs text-muted">
+    <ShieldCheck class="h-4 w-4 shrink-0 text-sage-500" aria-hidden="true" />
+    Everything you share stays between you and our prayer team.
+  </p>
+
+  <div>
+    <button type="submit" class="btn btn-primary btn-lg" data-submit>
+      <HeartHandshake class="h-5 w-5" aria-hidden="true" />
+      Send prayer request
+    </button>
+  </div>
+
+  <div class="hidden" data-status role="status"></div>
+</form>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-prayer-form]');
+  if (form) {
+    const ENDPOINT = form.dataset.endpoint || '';
+    const statusEl = form.querySelector<HTMLElement>('[data-status]');
+    const submitBtn = form.querySelector<HTMLButtonElement>('[data-submit]');
+    const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '';
+    const inputs = Array.from(form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[required]'));
+
+    const setError = (input: HTMLInputElement | HTMLTextAreaElement, message: string | null) => {
+      const errorEl = form.querySelector<HTMLElement>(`[data-error-for="${input.name}"]`);
+      if (!errorEl) return;
+      const id = `${input.name}-error`;
+      errorEl.id = id;
+      errorEl.textContent = message ?? '';
+      errorEl.hidden = !message;
+      input.setAttribute('aria-invalid', message ? 'true' : 'false');
+      input.setAttribute('aria-describedby', message ? id : '');
+    };
+
+    const validate = (): boolean => {
+      let valid = true;
+      for (const input of inputs) {
+        const value = (input.value || '').trim();
+        let message: string | null = null;
+        if (!value) {
+          message = 'This field is required.';
+        } else if (input.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          message = 'Please enter a valid email address.';
+        } else if (input instanceof HTMLTextAreaElement && value.length < 10) {
+          message = 'Please share a little more (at least 10 characters).';
+        } else if (input.type === 'text' && value.length < 2) {
+          message = 'Please enter at least 2 characters.';
+        }
+        if (message) valid = false;
+        setError(input, message);
+      }
+      return valid;
+    };
+
+    const showStatus = (html: string, kind: 'success' | 'info' | 'error') => {
+      if (!statusEl) return;
+      statusEl.className = `status-${kind}`;
+      statusEl.innerHTML = html;
+      statusEl.classList.remove('hidden');
+    };
+
+    const payload = () =>
+      Object.fromEntries(
+        new FormData(form).entries(),
+      );
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!validate() || !submitBtn) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+
+      try {
+        if (ENDPOINT) {
+          const res = await fetch(ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify(payload()),
+          });
+          if (!res.ok) throw new Error('Request failed');
+          showStatus('🙏 <strong>Thank you — your request has been received.</strong> Our team is praying for you this week.', 'success');
+        } else {
+          showStatus(
+            '🙏 <strong>Thank you — your request is ready to send.</strong> <span class="opacity-80">This form isn’t connected to a live inbox yet: set the <code>PUBLIC_PRAYER_ENDPOINT</code> environment variable to deliver requests to the church.</span>',
+            'info',
+          );
+        }
+        form.hidden = true;
+      } catch {
+        showStatus('Something went wrong — please try again in a moment.', 'error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnHtml;
+      }
+    });
+
+    for (const input of inputs) {
+      input.addEventListener('input', () => setError(input, null));
+    }
+  }
+</script>

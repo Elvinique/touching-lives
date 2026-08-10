@@ -1,0 +1,27 @@
+---
+import { site } from '@/config/site';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<a href="/" class={`group inline-flex items-center gap-3 ${className ?? ''}`} aria-label={`${site.name} — home`}>
+  <img
+    src="/logo-mark.svg"
+    alt=""
+    width="42"
+    height="42"
+    class="rounded-[12px] shadow-soft transition-transform duration-300 group-hover:scale-105"
+  />
+  <span class="flex flex-col leading-none">
+    <span class="font-display text-[1.2rem] font-semibold tracking-tight" style="color: var(--header-ink, #f7f1e7)">
+      Touching Lives
+    </span>
+    <span class="mt-1 text-[0.58rem] font-semibold uppercase tracking-[0.34em]" style="color: var(--header-dim, rgb(247 241 231 / 0.65))">
+      Church
+    </span>
+  </span>
+</a>

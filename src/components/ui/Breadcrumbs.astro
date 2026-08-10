@@ -1,0 +1,31 @@
+---
+import { ChevronRight } from '@lucide/astro';
+
+interface Props {
+  items: { label: string; href?: string }[];
+  tone?: 'dark' | 'light';
+}
+
+const { items, tone = 'dark' } = Astro.props;
+const text = tone === 'dark' ? 'text-cream/60 hover:text-cream' : 'text-muted hover:text-pine-950';
+---
+
+<nav aria-label="Breadcrumb" class="hero-rise" style="--d:220ms">
+  <ol class="flex flex-wrap items-center gap-1.5 text-xs font-medium">
+    <li>
+      <a href="/" class={`transition-colors ${text}`}>Home</a>
+    </li>
+    {
+      items.map((item) => (
+        <li class="flex items-center gap-1.5">
+          <ChevronRight class="h-3.5 w-3.5 opacity-50" aria-hidden="true" />
+          {item.href ? (
+            <a href={item.href} class={`transition-colors ${text}`}>{item.label}</a>
+          ) : (
+            <span aria-current="page" class="font-semibold text-terra-300">{item.label}</span>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>

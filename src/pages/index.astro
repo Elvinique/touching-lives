@@ -1,0 +1,246 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { site } from '@/config/site';
+import { isUpcoming, formatDay, formatMonth } from '@/lib/dates';
+import { firstVisitSteps, stories } from '@/data/content';
+import type { SermonCardData } from '@/components/cards/SermonCard.astro';
+import HeroHome from '@/components/sections/HeroHome.astro';
+import AnnouncementStrip from '@/components/sections/AnnouncementStrip.astro';
+import ThisSunday from '@/components/sections/ThisSunday.astro';
+import WelcomeSection from '@/components/sections/WelcomeSection.astro';
+import VisitJourney from '@/components/sections/VisitJourney.astro';
+import MessageSpotlight from '@/components/sections/MessageSpotlight.astro';
+import NextStepsSection from '@/components/sections/NextStepsSection.astro';
+import StoryBand from '@/components/sections/StoryBand.astro';
+import PrayerSection from '@/components/sections/PrayerSection.astro';
+import CTASection from '@/components/sections/CTASection.astro';
+import MinistryCard from '@/components/cards/MinistryCard.astro';
+import EventCard from '@/components/cards/EventCard.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import Reveal from '@/components/ui/Reveal.astro';
+import { ArrowRight, Clock3, MapPin, Sparkles } from '@lucide/astro';
+
+const toSermonCard = (s: CollectionEntry<'sermons'>): SermonCardData => ({
+  title: s.data.title,
+  series: s.data.series,
+  speaker: s.data.speaker,
+  date: s.data.date,
+  scripture: s.data.scripture,
+  duration: s.data.duration,
+  description: s.data.description,
+  image: s.data.image,
+  href: `/messages/${s.id}`,
+  videoUrl: s.data.videoUrl,
+});
+
+const sermons = await getCollection('sermons');
+const sortedSermons = sermons.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const latestSermon = sortedSermons[0];
+const recentSermons = sortedSermons.slice(1, 4).map(toSermonCard);
+
+const announcements = (await getCollection('announcements')).sort(
+  (a, b) => a.data.date.getTime() - b.data.date.getTime(),
+);
+
+const now = new Date();
+const ministries = (await getCollection('ministries'))
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 4);
+
+// Subtle per-ministry accent from the existing palette (homepage preview only).
+const ministryAccents: Record<string, string> = {
+  kids: 'text-gold-300',
+  youth: 'text-terra-400',
+  'young-adults': 'text-sage-300',
+  'life-groups': 'text-terra-400',
+  missions: 'text-gold-300',
+  prayer: 'text-sage-300',
+  worship: 'text-gold-300',
+};
+
+const upcomingEvents = (await getCollection('events'))
+  .filter((event) => isUpcoming(event.data.date, now))
+  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime())
+  .slice(0, 3);
+
+const featuredEvent = upcomingEvents[0];
+const moreEvents = upcomingEvents.slice(1);
+---
+
+<Layout
+  title={site.name}
+  description={site.description}
+>
+  <HeroHome />
+
+  <AnnouncementStrip announcements={announcements} />
+
+  <ThisSunday />
+
+  <WelcomeSection />
+
+  <VisitJourney
+    kicker="Your first visit"
+    title="What to expect on a Sunday"
+    lede="From the parking lot to the last song — here's how a Sunday works, so you can relax and enjoy it. No guesswork, no surprises."
+    steps={firstVisitSteps}
+  />
+
+  {
+    latestSermon && (
+      <MessageSpotlight sermon={toSermonCard(latestSermon)} recent={recentSermons} />
+    )
+  }
+
+  <NextStepsSection />
+
+  <!-- Ministries preview -->
+  <section class="wrap py-16 lg:py-24">
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+      <SectionHeading
+        kicker="Ministries"
+        title="Find your people"
+        lede="Kids, students, young adults, life groups, missions — there's a place for every age and every stage."
+      />
+      <Reveal>
+        <a href="/ministries" class="btn btn-outline btn-md mb-1">
+          View all ministries
+          <ArrowRight class="h-4 w-4" aria-hidden="true" />
+        </a>
+      </Reveal>
+    </div>
+
+    <div class="mt-12 grid gap-6 md:grid-cols-2">
+      {
+        ministries.map((ministry, index) => (
+          <Reveal delay={index * 80} class={index === 0 ? 'md:col-span-2' : ''}>
+            <MinistryCard
+              ministry={{
+                title: ministry.data.title,
+                tagline: ministry.data.tagline,
+                audience: ministry.data.audience,
+                image: ministry.data.image,
+                href: `/ministries/${ministry.id}`,
+              }}
+              accent={ministryAccents[ministry.id]}
+            />
+          </Reveal>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Events preview -->
+  <section class="bg-sand/60 py-16 lg:py-24">
+    <div class="wrap">
+      <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+        <SectionHeading
+          kicker="Events"
+          title="What's happening"
+          lede="Big gatherings and small tables — there's always something to be part of."
+        />
+        <Reveal>
+          <a href="/events" class="btn btn-outline btn-md mb-1">
+            View all events
+            <ArrowRight class="h-4 w-4" aria-hidden="true" />
+          </a>
+        </Reveal>
+      </div>
+
+      {
+        featuredEvent ? (
+          <div class="mt-12">
+            <!-- Featured event -->
+            <Reveal>
+              <a
+                href={`/events/${featuredEvent.id}`}
+                class="group grid overflow-hidden rounded-[1.6rem] bg-white shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-lift md:grid-cols-2"
+              >
+                <div class="relative aspect-[16/9] overflow-hidden md:aspect-auto md:min-h-[21rem]">
+                  <img
+                    src={featuredEvent.data.image}
+                    alt=""
+                    loading="lazy"
+                    class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-pine-950/85 via-pine-950/20 to-transparent" aria-hidden="true"></div>
+                  <span class="chip chip-gold absolute left-4 top-4">{featuredEvent.data.category}</span>
+                  <span class="absolute bottom-4 left-4 flex flex-col items-center rounded-2xl bg-cream/95 px-3.5 py-2 text-center shadow-soft">
+                    <span class="text-[0.65rem] font-bold uppercase tracking-widest text-terra-600">{formatMonth(featuredEvent.data.date)}</span>
+                    <span class="font-display text-2xl font-semibold leading-none text-pine-950">{formatDay(featuredEvent.data.date)}</span>
+                  </span>
+                </div>
+                <div class="flex flex-col justify-center gap-3 p-7 lg:p-10">
+                  <p class="kicker text-terra-600">
+                    <span class="h-1.5 w-1.5 rounded-full bg-current" aria-hidden="true" />
+                    Next up
+                  </p>
+                  <h3 class="font-display text-2xl leading-snug text-ink">{featuredEvent.data.title}</h3>
+                  <p class="meta">
+                    <span><Clock3 aria-hidden="true" />{featuredEvent.data.time}</span>
+                    <span><MapPin aria-hidden="true" />{featuredEvent.data.location}</span>
+                  </p>
+                  <p class="line-clamp-2 text-pretty text-sm leading-relaxed text-muted">{featuredEvent.data.description}</p>
+                  <span class="card-link">
+                    Event details
+                    <ArrowRight aria-hidden="true" />
+                  </span>
+                </div>
+              </a>
+            </Reveal>
+
+            <!-- Upcoming (swipeable on mobile, grid on desktop) -->
+            {
+              moreEvents.length > 0 && (
+                <ul class="no-scrollbar mt-6 flex snap-x gap-5 overflow-x-auto pb-2 md:grid md:grid-cols-2 md:overflow-visible">
+                  {
+                    moreEvents.map((event, index) => (
+                      <li class="w-[85%] max-w-sm shrink-0 snap-start md:w-auto">
+                        <Reveal delay={index * 80} class="h-full">
+                          <EventCard
+                            event={{
+                              title: event.data.title,
+                              date: event.data.date,
+                              time: event.data.time,
+                              location: event.data.location,
+                              category: event.data.category,
+                              description: event.data.description,
+                              image: event.data.image,
+                              href: `/events/${event.id}`,
+                            }}
+                            class="h-full"
+                          />
+                        </Reveal>
+                      </li>
+                    ))
+                  }
+                </ul>
+              )
+            }
+          </div>
+        ) : (
+          <Reveal>
+            <div class="mt-12 flex items-center gap-3 rounded-3xl border border-dashed border-line bg-white/60 p-8 text-muted">
+              <Sparkles class="h-5 w-5 text-gold-500" aria-hidden="true" />
+              New events are being planned — check back soon.
+            </div>
+          </Reveal>
+        )
+      }
+    </div>
+  </section>
+
+  <!-- Human stories — intentionally empty until verified stories exist (renders nothing) -->
+  <StoryBand stories={stories} />
+
+  <PrayerSection />
+
+  <CTASection
+    kicker="Come see for yourself"
+    title="We saved you a seat."
+    lede="The easiest way to know if this is your church is to show up. We'll save the parking, the coffee, and a seat right next to us."
+    primary={{ label: 'Plan Your Visit', href: '/visit' }}
+    secondary={{ label: 'Get Directions', href: site.mapUrl }}
+  />
+</Layout>

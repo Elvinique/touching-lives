@@ -1,0 +1,129 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { site } from '@/config/site';
+import PageHero from '@/components/sections/PageHero.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import Reveal from '@/components/ui/Reveal.astro';
+import CTASection from '@/components/sections/CTASection.astro';
+import { Gift, ArrowUpRight, Lock, Wallet } from '@lucide/astro';
+
+const givingUrl = site.givingUrl;
+---
+
+<Layout
+  title="Give"
+  description="Giving at Touching Lives Church — a joyful response to what God has done for us. Give online or in person."
+>
+  <PageHero
+    image="/art/hero-give.svg"
+    kicker="Give"
+    title="Giving is a way of saying yes."
+    lede="Everything we have comes from God. Giving is our grateful response — and it's how we get to love our city, serve our community, and share the hope of Jesus."
+  />
+
+  <section class="wrap py-16 lg:py-24">
+    <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <div>
+        <SectionHeading
+          kicker="Why we give"
+          title="Generosity is worship with the wallet"
+          lede="We don't give because God needs our money — He doesn't. We give because generosity loosens our grip on everything that keeps us from trusting Him."
+        />
+        <Reveal delay={100}>
+          <p class="mt-6 text-pretty leading-relaxed text-pine-950/75">
+            Your giving funds everything you see on this site and more: weekend services, kids and student
+            ministries, our Growth Track, life groups, local outreach, and mission partners in 12 countries.
+            Every gift, of any size, matters.
+          </p>
+        </Reveal>
+        <Reveal delay={160}>
+          <p class="mt-5 flex items-center gap-3 text-sm text-muted">
+            <Lock class="h-4 w-4 shrink-0 text-sage-500" aria-hidden="true" />
+            Secure, encrypted giving. You'll receive a receipt for tax purposes with every gift.
+          </p>
+        </Reveal>
+      </div>
+
+      <Reveal delay={80}>
+        <img
+          src="/art/community-cards.svg"
+          alt="A community gathered together"
+          loading="lazy"
+          class="aspect-[4/3] w-full rounded-[2rem] object-cover shadow-lift"
+        />
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- Ways to give -->
+  <section class="bg-sand/60 py-16 lg:py-24">
+    <div class="wrap">
+      <SectionHeading
+        kicker="Ways to give"
+        title="Three easy ways"
+        align="center"
+      />
+
+      <div class="mt-12 grid gap-5 lg:grid-cols-3">
+        <Reveal>
+          <div class="flex h-full flex-col rounded-[1.4rem] bg-white p-7 shadow-soft">
+            <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-pine-950 text-gold-300">
+              <Wallet class="h-6 w-6" aria-hidden="true" />
+            </span>
+            <h3 class="mt-5 font-display text-xl text-ink">In person</h3>
+            <p class="mt-2 text-pretty text-sm leading-relaxed text-muted">
+              Giving boxes are in the lobby at every service. Cash, check, or card — whatever's easiest.
+            </p>
+          </div>
+        </Reveal>
+
+        <Reveal delay={80}>
+          <div class="flex h-full flex-col rounded-[1.4rem] bg-white p-7 shadow-soft">
+            <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-terra-500 text-white">
+              <Gift class="h-6 w-6" aria-hidden="true" />
+            </span>
+            <h3 class="mt-5 font-display text-xl text-ink">Online</h3>
+            <p class="mt-2 text-pretty text-sm leading-relaxed text-muted">
+              Give securely online in under a minute, one time or recurring.
+            </p>
+            {
+              givingUrl ? (
+                <a href={givingUrl} target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-md mt-5">
+                  Give Online
+                  <ArrowUpRight class="h-4 w-4" aria-hidden="true" />
+                </a>
+              ) : (
+                <div class="mt-5 rounded-2xl border border-dashed border-pine-300 bg-pine-50 px-4 py-3 text-sm text-pine-800">
+                  Online giving is being set up — give in person at any service in the meantime.
+                  <br />
+                  <span class="text-xs text-pine-600">(Set the <code>PUBLIC_GIVING_URL</code> environment variable to enable.)</span>
+                </div>
+              )
+            }
+          </div>
+        </Reveal>
+
+        <Reveal delay={160}>
+          <div class="flex h-full flex-col rounded-[1.4rem] bg-pine-950 p-7 text-cream shadow-lift">
+            <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-gold-400 text-pine-950">
+              <ArrowUpRight class="h-6 w-6" aria-hidden="true" />
+            </span>
+            <h3 class="mt-5 font-display text-xl">Legacy giving</h3>
+            <p class="mt-2 text-pretty text-sm leading-relaxed text-cream/70">
+              A planned gift is one of the most generous things a person can do — leaving a legacy that outlasts us.
+            </p>
+            <a href="/contact" class="btn btn-outline-light btn-md mt-5">Talk to our team</a>
+          </div>
+        </Reveal>
+      </div>
+    </div>
+  </section>
+
+  <CTASection
+    kicker="Every gift matters"
+    title="Thank you for being part of this."
+    lede="Whether it's your first gift or your thousandth, it's used carefully, prayerfully, and for one purpose: helping people take their next step toward Jesus."
+    primary={{ label: 'Plan Your Visit', href: '/visit' }}
+    secondary={{ label: 'See where giving goes', href: '/about' }}
+  />
+</Layout>

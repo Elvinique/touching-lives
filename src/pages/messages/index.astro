@@ -1,0 +1,19 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import PageHero from '@/components/sections/PageHero.astro';
+import MessageFilters from '@/components/messages/MessageFilters.astro';
+---
+
+<Layout
+  title="Messages"
+  description="Browse our full archive of messages — search by series, speaker, or year and find the message you need."
+>
+  <PageHero
+    image="/art/hero-messages.svg"
+    kicker="Messages"
+    title="Messages that meet you where you are."
+    lede="Every week we open Scripture together and ask what it has to do with real life. Browse the archive below — search by series, speaker, or year."
+  />
+
+  <MessageFilters />
+</Layout>

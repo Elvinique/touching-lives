@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="People gathered around a table" preserveAspectRatio="xMidYMid slice">
+<defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#0F1C10"/>
+    <stop offset="1" stop-color="#3E5C35"/>
+  </linearGradient>
+  <radialGradient id="glow" cx="0.5" cy="0.42" r="0.62">
+    <stop offset="0" stop-color="#F4DCA2" stop-opacity="0.5"/>
+    <stop offset="1" stop-color="#F4DCA2" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="vig" cx="0.5" cy="0.5" r="0.75">
+    <stop offset="0.6" stop-color="#000" stop-opacity="0"/>
+    <stop offset="1" stop-color="#000" stop-opacity="0.32"/>
+  </radialGradient>
+  <filter id="grain" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+    <feComponentTransfer><feFuncA type="linear" slope="0.05"/></feComponentTransfer>
+  </filter>
+</defs>
+<rect width="1200" height="800" fill="url(#sky)"/>
+<rect width="1200" height="800" fill="url(#glow)"/>
+
+    <g transform="translate(240,560)" opacity="0.9">
+      <circle r="156" fill="#51693A"/>
+      <circle cx="-85.80000000000001" cy="43.68000000000001" r="112.32" fill="#51693A"/>
+      <circle cx="93.6" cy="31.200000000000003" r="102.96000000000001" fill="#51693A"/>
+      <circle cx="15.600000000000001" cy="-78" r="93.6" fill="#51693A"/>
+    </g>
+    <g transform="translate(456,512)" opacity="0.75">
+      <circle r="120" fill="#D9E5C0"/>
+      <circle cx="-66" cy="33.6" r="86.39999999999999" fill="#D9E5C0"/>
+      <circle cx="72" cy="24" r="79.2" fill="#D9E5C0"/>
+      <circle cx="12" cy="-60" r="72" fill="#D9E5C0"/>
+    </g>
+    <g transform="translate(660,560)" opacity="0.85">
+      <circle r="168.00000000000003" fill="#51693A"/>
+      <circle cx="-92.40000000000002" cy="47.04000000000001" r="120.96000000000002" fill="#51693A"/>
+      <circle cx="100.80000000000001" cy="33.60000000000001" r="110.88000000000002" fill="#51693A"/>
+      <circle cx="16.800000000000004" cy="-84.00000000000001" r="100.80000000000001" fill="#51693A"/>
+    </g>
+    <g transform="translate(864,504)" opacity="0.7">
+      <circle r="108" fill="#D9E5C0"/>
+      <circle cx="-59.400000000000006" cy="30.240000000000002" r="77.75999999999999" fill="#D9E5C0"/>
+      <circle cx="64.8" cy="21.6" r="71.28" fill="#D9E5C0"/>
+      <circle cx="10.8" cy="-54" r="64.8" fill="#D9E5C0"/>
+    </g>
+    <g transform="translate(1020,576)" opacity="0.8">
+      <circle r="144" fill="#51693A"/>
+      <circle cx="-79.2" cy="40.32000000000001" r="103.67999999999999" fill="#51693A"/>
+      <circle cx="86.39999999999999" cy="28.8" r="95.04" fill="#51693A"/>
+      <circle cx="14.4" cy="-72" r="86.39999999999999" fill="#51693A"/>
+    </g>
+    <g transform="translate(600,400)" opacity="0.55">
+      <circle r="72" fill="#F4DCA2"/>
+      <circle cx="-39.6" cy="20.160000000000004" r="51.839999999999996" fill="#F4DCA2"/>
+      <circle cx="43.199999999999996" cy="14.4" r="47.52" fill="#F4DCA2"/>
+      <circle cx="7.2" cy="-36" r="43.199999999999996" fill="#F4DCA2"/>
+    </g><circle cx="1042.8708954232181" cy="144.98405328292117" r="1.4995663292012749" fill="#FFF" opacity="0.33279557324710496"/><circle cx="882.9049337718936" cy="125.2839186347781" r="1.3699708442337608" fill="#FFF" opacity="0.42649600026162804"/><circle cx="268.04759165550996" cy="206.81056913375366" r="1.1375600286218308" fill="#FFF" opacity="0.16106573644562933"/><circle cx="623.9669410993721" cy="325.07194443609376" r="1.5575036560347333" fill="#FFF" opacity="0.4023190259047106"/><circle cx="492.1579335327021" cy="334.1307464491381" r="1.674528228553285" fill="#FFF" opacity="0.3389322572851323"/><circle cx="186.84643111011587" cy="84.76042916504915" r="2.075185867934528" fill="#FFF" opacity="0.4121307936775168"/><circle cx="645.9381710912862" cy="197.59650052581347" r="2.174183132927747" fill="#FFF" opacity="0.39020173295182947"/><circle cx="504.86685627043175" cy="166.08425736562603" r="1.542561860347797" fill="#FFF" opacity="0.2633119322045358"/><path d="M0 704 Q 420 656 840 704 T 1200 688 V 800 H 0 Z" fill="#101B0C" opacity="0.9"/>
+<rect width="1200" height="800" filter="url(#grain)"/>
+<rect width="1200" height="800" fill="url(#vig)"/>
+</svg>

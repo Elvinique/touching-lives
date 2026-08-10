@@ -1,0 +1,265 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import PageHero from '@/components/sections/PageHero.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import Reveal from '@/components/ui/Reveal.astro';
+import Accordion from '@/components/ui/Accordion.astro';
+import CTASection from '@/components/sections/CTASection.astro';
+import { values, beliefs, stats, timeline } from '@/data/content';
+import { Compass, Telescope } from '@lucide/astro';
+
+const leadership = (await getCollection('leadership')).sort((a, b) =>
+  a.data.name.localeCompare(b.data.name),
+);
+
+const initials = (name: string) =>
+  name
+    .split(' ')
+    .map((part) => part[0])
+    .join('')
+    .slice(0, 2);
+---
+
+<Layout
+  title="About Us"
+  description="Our story, mission, values, and beliefs — and the people who make Touching Lives Church home."
+>
+  <PageHero
+    image="/art/hero-about.svg"
+    kicker="About Touching Lives"
+    title="A church that feels like home."
+    lede="For more than four decades we've believed the local church is God's best idea — a family of people finding faith, community, and their place together."
+  />
+
+  <!-- Story -->
+  <section class="wrap py-16 lg:py-24">
+    <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <Reveal class="relative order-last lg:order-first">
+        <div class="absolute -left-4 -top-4 h-full w-full rounded-[2rem] border-2 border-pine-200" aria-hidden="true"></div>
+        <img
+          src="/art/story-founded.svg"
+          alt="A doorway opening onto light"
+          loading="lazy"
+          class="relative aspect-[4/3] w-full rounded-[2rem] object-cover shadow-lift"
+        />
+      </Reveal>
+
+      <div>
+        <SectionHeading
+          kicker="Our story"
+          title="Twelve friends. One living room. Still going."
+          lede="Touching Lives began in 1984 when a dozen friends started meeting for prayer in a South Austin living room. They had one conviction: everyone deserves a place to belong, no matter where they're coming from."
+        />
+        <Reveal delay={100}>
+          <p class="mt-6 text-pretty leading-relaxed text-pine-950/75">
+            That living room became a warehouse, the warehouse became our Fellowship Lane campus, and the
+            campus became a family that stretches across the city — and, through our mission partners,
+            around the world. The building has changed; the conviction hasn't.
+          </p>
+          <p class="mt-4 text-pretty leading-relaxed text-pine-950/75">
+            We're still convinced that church should be the place where you're known, not just counted —
+            where your questions are welcome, your story matters, and your next step is celebrated.
+          </p>
+        </Reveal>
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section class="bg-sand/60 py-16 lg:py-24">
+    <div class="wrap">
+      <SectionHeading
+        kicker="How we got here"
+        title="A story worth retelling"
+        align="center"
+      />
+
+      <ol class="relative mx-auto mt-14 max-w-3xl space-y-10 border-l-2 border-pine-200 pl-8 sm:pl-10">
+        {
+          timeline.map((item, index) => (
+            <li class="reveal relative" style={`--reveal-delay:${index * 80}ms`}>
+                <span
+                  class="absolute -left-[2.55rem] top-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-pine-600 bg-cream sm:-left-[3.05rem]"
+                  aria-hidden="true"
+                >
+                  <span class="h-2 w-2 rounded-full bg-terra-500"></span>
+                </span>
+                <p class="font-display text-lg font-semibold text-terra-600">{item.year}</p>
+                <h3 class="mt-1 font-display text-2xl text-ink">{item.title}</h3>
+                <p class="mt-2 max-w-xl text-pretty leading-relaxed text-muted">{item.description}</p>
+              </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- Mission & Vision -->
+  <section class="wrap py-16 lg:py-24">
+    <SectionHeading
+      kicker="Why we exist"
+      title="Mission & vision"
+      lede="Two sentences keep us pointed in the same direction, Sunday after Sunday."
+    />
+
+    <div class="mt-12 grid gap-6 md:grid-cols-2">
+      <Reveal>
+        <div class="relative h-full overflow-hidden rounded-[1.6rem] bg-pine-950 p-9 text-cream shadow-lift">
+          <div class="pointer-events-none absolute -right-16 -top-16 h-52 w-52 rounded-full bg-gold-400/15 blur-2xl" aria-hidden="true"></div>
+          <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-terra-500 text-white">
+            <Compass class="h-6 w-6" aria-hidden="true" />
+          </span>
+          <h3 class="mt-6 font-display text-2xl">Our mission</h3>
+          <p class="mt-4 text-pretty text-lg leading-relaxed text-cream/80">
+            To help people take their next step toward Jesus — and to make sure nobody takes it alone.
+          </p>
+        </div>
+      </Reveal>
+
+      <Reveal delay={100}>
+        <div class="relative h-full overflow-hidden rounded-[1.6rem] bg-white p-9 shadow-lift">
+          <div class="pointer-events-none absolute -right-16 -top-16 h-52 w-52 rounded-full bg-terra-500/10 blur-2xl" aria-hidden="true"></div>
+          <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-gold-400 text-pine-950">
+            <Telescope class="h-6 w-6" aria-hidden="true" />
+          </span>
+          <h3 class="mt-6 font-display text-2xl text-ink">Our vision</h3>
+          <p class="mt-4 text-pretty text-lg leading-relaxed text-muted">
+            A city where every neighborhood has a doorway into faith, community, and belonging — starting with ours.
+          </p>
+        </div>
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section class="bg-sand/60 py-16 lg:py-24">
+    <div class="wrap">
+      <SectionHeading
+        kicker="What we value"
+        title="Five things we'd fight for"
+        align="center"
+      />
+
+      <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          values.map((value, index) => {
+            const Icon = value.icon;
+            return (
+              <Reveal delay={index * 60}>
+                <div class="group h-full rounded-[1.4rem] bg-white p-7 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-lift">
+                  <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-terra-500/10 text-terra-600 transition-colors duration-300 group-hover:bg-terra-500 group-hover:text-white">
+                    <Icon class="h-5 w-5" aria-hidden="true" />
+                  </span>
+                  <h3 class="mt-5 font-display text-xl text-ink">{value.title}</h3>
+                  <p class="mt-2 text-pretty text-sm leading-relaxed text-muted">{value.description}</p>
+                </div>
+              </Reveal>
+            );
+          })
+        }
+
+        <Reveal delay={values.length * 60}>
+          <a
+            href="/visit"
+            class="group flex h-full flex-col justify-between rounded-[1.4rem] bg-pine-950 p-7 text-cream shadow-lift transition-all duration-300 hover:-translate-y-1"
+          >
+            <p class="font-display text-2xl leading-snug">
+              The best way to understand a church?
+              <span class="text-gold-300">Come spend a Sunday with us.</span>
+            </p>
+            <span class="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-gold-300">
+              Plan your visit
+              <span class="transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">→</span>
+            </span>
+          </a>
+        </Reveal>
+      </div>
+    </div>
+  </section>
+
+  <!-- Beliefs -->
+  <section class="wrap py-16 lg:py-24">
+    <div class="grid gap-12 lg:grid-cols-12 lg:gap-16">
+      <div class="lg:col-span-4">
+        <SectionHeading
+          kicker="What we believe"
+          title="Simple faith, held seriously"
+          lede="We hold these convictions loosely enough to keep learning, and firmly enough to build a life on. Questions are always welcome."
+        />
+        <Reveal delay={120}>
+          <img
+            src="/art/story-today.svg"
+            alt="A city skyline under a warm sky"
+            loading="lazy"
+            class="mt-8 aspect-[4/3] w-full rounded-[1.6rem] object-cover shadow-soft"
+          />
+        </Reveal>
+      </div>
+      <div class="lg:col-span-8">
+        <Reveal delay={80}>
+          <Accordion items={beliefs.map((b) => ({ q: b.title, a: b.body }))} />
+        </Reveal>
+      </div>
+    </div>
+  </section>
+
+  <!-- Leadership -->
+  <section class="bg-sand/60 py-16 lg:py-24">
+    <div class="wrap">
+      <SectionHeading
+        kicker="Leadership"
+        title="The people shepherding our church"
+        lede="A team that loves God, loves people, and would genuinely love to meet you."
+      />
+
+      <ul class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          leadership.map((person, index) => (
+            <li class="reveal group h-full rounded-[1.4rem] bg-white p-7 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-lift" style={`--reveal-delay:${index * 60}ms`}>
+                <span class="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-pine-700 to-pine-950 font-display text-lg font-semibold text-gold-300">
+                  {initials(person.data.name)}
+                </span>
+                <h3 class="mt-5 font-display text-xl text-ink">{person.data.name}</h3>
+                <p class="mt-1 text-sm font-semibold text-terra-600">{person.data.role}</p>
+                <p class="mt-3 text-pretty text-sm leading-relaxed text-muted">{person.data.bio}</p>
+              </li>
+          ))
+        }
+      </ul>
+
+      <Reveal delay={100}>
+        <div class="mt-12 flex flex-wrap items-center justify-between gap-6 rounded-[1.6rem] border border-line bg-white p-8 shadow-soft">
+          <div>
+            <h3 class="font-display text-xl text-ink">Want to meet them in person?</h3>
+            <p class="mt-1 text-sm text-muted">Every leader is around after each service — and they'd love to say hi.</p>
+          </div>
+          <a href="/visit" class="btn btn-primary btn-md">Plan Your Visit</a>
+        </div>
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="wrap py-16 lg:py-24">
+    <Reveal>
+      <dl class="grid gap-8 rounded-[2rem] bg-pine-950 p-10 text-center shadow-lift sm:grid-cols-2 lg:grid-cols-4 lg:p-14">
+        {
+          stats.map((stat) => (
+            <div>
+              <dt class="sr-only">{stat.label}</dt>
+              <dd class="font-display text-5xl font-semibold text-gold-300">{stat.value}</dd>
+              <dd class="mt-2 text-sm text-cream/65">{stat.label}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </Reveal>
+  </section>
+
+  <CTASection
+    kicker="Be part of the story"
+    title="Your chapter starts here."
+    lede="Every story in this church started with one person deciding to show up. Yours could be next."
+  />
+</Layout>

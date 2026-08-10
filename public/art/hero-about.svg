@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" role="img" aria-label="A doorway opening onto light" preserveAspectRatio="xMidYMid slice">
+<defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#230E1E"/>
+    <stop offset="1" stop-color="#5B2A48"/>
+  </linearGradient>
+  <radialGradient id="glow" cx="0.5" cy="0.42" r="0.62">
+    <stop offset="0" stop-color="#FFD0C0" stop-opacity="0.5"/>
+    <stop offset="1" stop-color="#FFD0C0" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="vig" cx="0.5" cy="0.5" r="0.75">
+    <stop offset="0.6" stop-color="#000" stop-opacity="0"/>
+    <stop offset="1" stop-color="#000" stop-opacity="0.32"/>
+  </radialGradient>
+  <filter id="grain" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+    <feComponentTransfer><feFuncA type="linear" slope="0.05"/></feComponentTransfer>
+  </filter>
+</defs>
+<rect width="1920" height="1080" fill="url(#sky)"/>
+<rect width="1920" height="1080" fill="url(#glow)"/>
+<path d="M 748.8 885.5999999999999 V 432 A 211.2 221.76 0 0 1 1171.2 432 V 885.5999999999999 Z" fill="#FFD0C0" opacity="0.85"/><ellipse cx="960" cy="885.5999999999999" rx="116.16" ry="21.6" fill="#FFD0C0" opacity="0.7"/><path d="M 633.5999999999999 885.5999999999999 V 367.20000000000005 A 326.40000000000003 332.92800000000005 0 0 1 1286.4 367.20000000000005 V 885.5999999999999" fill="none" stroke="#EBC4D5" stroke-width="499.20000000000005" opacity="0.1" stroke-linecap="round"/><path d="M 499.20000000000005 885.5999999999999 V 367.20000000000005 A 460.79999999999995 470.01599999999996 0 0 1 1420.8 367.20000000000005 V 885.5999999999999" fill="none" stroke="#EBC4D5" stroke-width="576" opacity="0.08" stroke-linecap="round"/><path d="M 364.79999999999995 885.5999999999999 V 367.20000000000005 A 595.2 607.104 0 0 1 1555.2 367.20000000000005 V 885.5999999999999" fill="none" stroke="#EBC4D5" stroke-width="652.8000000000001" opacity="0.07" stroke-linecap="round"/><path d="M 230.39999999999998 885.5999999999999 V 367.20000000000005 A 729.6 744.192 0 0 1 1689.6 367.20000000000005 V 885.5999999999999" fill="none" stroke="#EBC4D5" stroke-width="710.4" opacity="0.055" stroke-linecap="round"/><path d="M0 928.8 Q 576 864 1152 928.8 T 1920 907.1999999999999 V 1080 H 0 Z" fill="#1E0C19"/><circle cx="466.5218002925732" cy="143.86027371338753" r="2.0537593418144238" fill="#FFF" opacity="0.4346636059144239"/><circle cx="1575.6021520882762" cy="225.38456381597214" r="2.3409904614740817" fill="#FFF" opacity="0.4263755524076749"/><circle cx="509.7356239706949" cy="92.15625374391138" r="1.3284779723950493" fill="#FFF" opacity="0.17810412031122075"/><circle cx="1097.1193215158464" cy="293.98226698715297" r="2.167774752566558" fill="#FFF" opacity="0.43349860298670173"/><circle cx="1614.13186883506" cy="276.14024090699263" r="1.1535960108411822" fill="#FFF" opacity="0.4043153740808343"/><circle cx="374.3809477568566" cy="243.23007830551856" r="2.285110280674033" fill="#FFF" opacity="0.39233122679339627"/><circle cx="844.6511988785718" cy="156.28322861570055" r="1.9757128928738" fill="#FFF" opacity="0.23235138371908018"/><circle cx="623.4942084523431" cy="75.1242825880608" r="2.2621812608015706" fill="#FFF" opacity="0.27268787630060165"/><circle cx="770.2206986089615" cy="181.5569747395817" r="1.7051633820068723" fill="#FFF" opacity="0.174959102915328"/><circle cx="300.7135639172129" cy="71.99450981955098" r="1.522707330078308" fill="#FFF" opacity="0.46579109365158367"/>
+<rect width="1920" height="1080" filter="url(#grain)"/>
+<rect width="1920" height="1080" fill="url(#vig)"/>
+</svg>

@@ -1,0 +1,84 @@
+---
+import { site } from '@/config/site';
+import { Play, MapPin, Clock3, ChevronDown, Sparkles } from '@lucide/astro';
+import { media } from '@/data/media';
+
+const watchHref = site.youtubeChannel || '/messages';
+---
+
+<section class="relative flex min-h-[100svh] items-center overflow-hidden bg-pine-950">
+  <!-- Photographic base (media slot — artwork placeholder until the real photo is provided) -->
+  <img
+    src={media.homeHero.src}
+    alt=""
+    class="animate-drift absolute inset-0 h-full w-full object-cover opacity-80"
+    fetchpriority="high"
+  />
+  <!-- Readability scrims -->
+  <div class="absolute inset-0 bg-gradient-to-b from-pine-950/85 via-pine-950/40 to-pine-950" aria-hidden="true"></div>
+  <div class="absolute inset-0 bg-gradient-to-r from-pine-950/85 via-pine-950/35 to-transparent" aria-hidden="true"></div>
+  <!-- Atmosphere: slow light + film grain (CSS-only, reduced-motion safe) -->
+  <div
+    class="light-sweep pointer-events-none absolute -inset-x-1/4 inset-y-0 bg-gradient-to-r from-transparent via-gold-300/10 to-transparent"
+    aria-hidden="true"
+  ></div>
+  <div class="grain pointer-events-none absolute inset-0 opacity-50" aria-hidden="true"></div>
+
+  <div class="wrap relative pb-28 pt-32">
+    <div class="max-w-3xl">
+      <p class="hero-rise kicker text-gold-300" style="--d:60ms">
+        <span class="relative flex h-2.5 w-2.5">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold-300 opacity-60"></span>
+          <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-gold-300"></span>
+        </span>
+        You're welcome here
+      </p>
+
+      <h1 class="hero-rise mt-6 font-display text-display text-balance text-cream" style="--d:140ms">
+        Find faith.
+        <br />
+        Find community.
+        <br />
+        <span class="text-gold-300">Find your place.</span>
+      </h1>
+
+      <p class="hero-rise mt-6 max-w-xl text-pretty text-lg leading-relaxed text-cream/80" style="--d:220ms">
+        {site.name} is a place where you can come exactly as you are — whether you're brand new to faith,
+        coming back after a long time, or simply looking for people to belong with.
+      </p>
+
+      <div class="hero-rise mt-9 flex flex-col gap-3 sm:flex-row sm:items-center" style="--d:300ms">
+        <a href="/visit" class="btn btn-primary btn-lg">Plan Your Visit</a>
+        <a href={watchHref} class="btn btn-outline-light btn-lg">
+          <span class="flex h-6 w-6 items-center justify-center rounded-full bg-cream/15">
+            <Play class="ml-0.5 h-3 w-3 fill-current" aria-hidden="true" />
+          </span>
+          Watch Online
+        </a>
+      </div>
+
+      <div class="hero-rise mt-12 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-cream/75" style="--d:380ms">
+        <span class="inline-flex items-center gap-2">
+          <Clock3 class="h-4 w-4 text-gold-300" aria-hidden="true" />
+          Sundays {site.serviceTimes.map((t) => t.label).join(' & ')}
+        </span>
+        <span class="inline-flex items-center gap-2">
+          <MapPin class="h-4 w-4 text-gold-300" aria-hidden="true" />
+          {site.address.street}, {site.address.city}
+        </span>
+        <span class="inline-flex items-center gap-2">
+          <Sparkles class="h-4 w-4 text-gold-300" aria-hidden="true" />
+          Kids ministry at both services
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <a
+    href="#this-sunday"
+    class="absolute bottom-6 left-1/2 hidden -translate-x-1/2 text-cream/50 transition-colors hover:text-cream md:block"
+    aria-label="Scroll to this Sunday's services"
+  >
+    <ChevronDown class="h-6 w-6 animate-bounce" aria-hidden="true" />
+  </a>
+</section>

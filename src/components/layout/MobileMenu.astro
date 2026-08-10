@@ -1,0 +1,109 @@
+---
+import { nav, site } from '@/config/site';
+import { X, MapPin, Clock3, Phone } from '@lucide/astro';
+import Logo from '@/components/ui/Logo.astro';
+---
+
+<div
+  id="mobile-menu"
+  data-mobile-menu
+  class="mobile-menu fixed inset-0 z-[70]"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Main menu"
+>
+  <div class="absolute inset-0 bg-pine-950/97 backdrop-blur-sm" aria-hidden="true"></div>
+
+  <div class="relative flex h-full flex-col overflow-y-auto">
+    <div class="wrap flex h-[4.5rem] items-center justify-between">
+      <Logo />
+      <button
+        type="button"
+        data-menu-close
+        class="flex h-11 w-11 items-center justify-center rounded-full text-cream transition-colors hover:bg-cream/10"
+        aria-label="Close menu"
+      >
+        <X class="h-6 w-6" aria-hidden="true" />
+      </button>
+    </div>
+
+    <nav class="wrap mt-4 flex-1" aria-label="Mobile">
+      <ul class="flex flex-col">
+        {
+          nav.map((item, index) => (
+            <li>
+              <a
+                href={item.href}
+                data-menu-link
+                class="menu-item flex items-center justify-between border-b border-cream/10 py-4 font-display text-[1.7rem] font-medium text-cream transition-colors hover:text-gold-300"
+                style={`--d:${60 + index * 45}ms`}
+              >
+                {item.label}
+                <span class="text-gold-300/70" aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="wrap pb-10">
+      <div class="flex flex-col gap-3 sm:flex-row">
+        <a href="/visit" class="btn btn-primary btn-lg flex-1">Plan Your Visit</a>
+        <a href="/give" class="btn btn-outline-light btn-lg flex-1">Give</a>
+      </div>
+
+      <address class="mt-8 space-y-3 text-sm text-cream/60 not-italic">
+        <p class="flex items-center gap-3">
+          <MapPin class="h-4 w-4 shrink-0 text-gold-300" aria-hidden="true" />
+          {site.address.street}, {site.address.city}, {site.address.state} {site.address.zip}
+        </p>
+        <p class="flex items-center gap-3">
+          <Clock3 class="h-4 w-4 shrink-0 text-gold-300" aria-hidden="true" />
+          Sundays at {site.serviceTimes.map((t) => t.label).join(' & ')}
+        </p>
+        <p class="flex items-center gap-3">
+          <Phone class="h-4 w-4 shrink-0 text-gold-300" aria-hidden="true" />
+          <a href={`tel:${site.phone.replace(/[^+\d]/g, '')}`} class="transition-colors hover:text-cream">{site.phone}</a>
+        </p>
+      </address>
+    </div>
+  </div>
+</div>
+
+<style>
+  .mobile-menu {
+    visibility: hidden;
+    opacity: 0;
+    transition:
+      opacity 0.35s ease,
+      visibility 0.35s;
+  }
+  .mobile-menu.open {
+    visibility: visible;
+    opacity: 1;
+    transition:
+      opacity 0.35s ease,
+      visibility 0s;
+  }
+  .mobile-menu .menu-item {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 0.5s var(--ease-out-soft),
+      transform 0.5s var(--ease-out-soft);
+    transition-delay: var(--d, 0ms);
+  }
+  .mobile-menu.open .menu-item {
+    opacity: 1;
+    transform: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-menu,
+    .mobile-menu .menu-item {
+      transition: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>

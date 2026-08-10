@@ -1,0 +1,122 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { site } from '@/config/site';
+import PageHero from '@/components/sections/PageHero.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import Reveal from '@/components/ui/Reveal.astro';
+import MapCard from '@/components/ui/MapCard.astro';
+import ContactForm from '@/components/forms/ContactForm.astro';
+import SocialLinks from '@/components/ui/SocialLinks.astro';
+import { contactChannels } from '@/data/content';
+import { Clock3 } from '@lucide/astro';
+---
+
+<Layout
+  title="Contact"
+  description="Get in touch with Touching Lives Church — address, phone, email, service times, and a quick contact form."
+>
+  <PageHero
+    image="/art/hero-contact.svg"
+    kicker="Contact"
+    title="We'd love to hear from you."
+    lede="Questions, prayer requests, or just want to say hi? We answer every message — usually within a couple of days."
+  />
+
+  <!-- Channels -->
+  <section class="wrap py-16 lg:py-20">
+    <ul class="grid gap-5 sm:grid-cols-3">
+      {
+        contactChannels.map((channel, index) => {
+          const Icon = channel.icon;
+          const isDark = index === 1;
+          const cardClass = isDark
+            ? 'flex h-full flex-col gap-3 rounded-[1.4rem] bg-pine-950 p-7 text-cream shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-lift'
+            : 'flex h-full flex-col gap-3 rounded-[1.4rem] bg-white p-7 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-lift';
+          const iconClass = isDark
+            ? 'flex h-11 w-11 items-center justify-center rounded-xl bg-gold-400 text-pine-950'
+            : 'flex h-11 w-11 items-center justify-center rounded-xl bg-terra-500/10 text-terra-600';
+          const headingClass = isDark ? 'font-display text-lg text-cream' : 'font-display text-lg text-ink';
+          const linkClass = isDark
+            ? 'mt-1 block text-sm break-words transition-colors text-cream/75 hover:text-cream'
+            : 'mt-1 block text-sm break-words transition-colors text-muted hover:text-terra-600';
+          const valueClass = isDark ? 'mt-1 text-sm text-cream/75' : 'mt-1 text-sm text-muted';
+          return (
+            <li class={`reveal ${cardClass}`} style={`--reveal-delay:${index * 80}ms`}>
+                <span class={iconClass}>
+                  <Icon class="h-5 w-5" aria-hidden="true" />
+                </span>
+                <div>
+                  <h2 class={headingClass}>{channel.label}</h2>
+                  {channel.href ? (
+                    <a href={channel.href} class={linkClass}>
+                      {channel.value}
+                    </a>
+                  ) : (
+                    <p class={valueClass}>{channel.value}</p>
+                  )}
+                </div>
+              </li>
+          );
+        })
+      }
+    </ul>
+  </section>
+
+  <!-- Map + form -->
+  <section class="bg-sand/60 py-16 lg:py-24">
+    <div class="wrap grid gap-12 lg:grid-cols-12 lg:gap-16">
+      <div class="lg:col-span-6">
+        <MapCard title="Visit us" />
+
+        <Reveal delay={100}>
+          <div class="mt-6 rounded-[1.6rem] border border-line bg-white p-7 shadow-soft">
+            <h2 class="font-display text-xl text-ink">Service times</h2>
+            <ul class="mt-4 space-y-3">
+              {
+                site.serviceTimes.map((time) => (
+                  <li class="flex items-center justify-between gap-4 rounded-xl bg-cream px-4 py-3">
+                    <span class="flex items-center gap-2 text-sm font-medium text-pine-900">
+                      <Clock3 class="h-4 w-4 text-terra-500" aria-hidden="true" />
+                      Sundays · {time.label}
+                    </span>
+                    <span class="text-right text-xs text-muted">{time.note}</span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </Reveal>
+
+        <Reveal delay={160}>
+          <div class="mt-6 rounded-[1.6rem] bg-pine-950 p-7 text-cream shadow-lift">
+            <h2 class="font-display text-xl">Follow along</h2>
+            <p class="mt-2 text-sm text-cream/65">We share the everyday moments on social media.</p>
+            <div class="mt-5">
+              <SocialLinks />
+            </div>
+            {
+              Object.values(site.social).every((url) => url === '') && (
+                <p class="mt-4 text-xs text-cream/40">
+                  Social links appear here once the church's accounts are configured via environment variables.
+                </p>
+              )
+            }
+          </div>
+        </Reveal>
+      </div>
+
+      <div class="lg:col-span-6">
+        <SectionHeading
+          kicker="Send a message"
+          title="The fastest way to reach us"
+          lede="Tell us what's on your mind and we'll get back to you within a couple of days."
+        />
+        <Reveal delay={100}>
+          <div class="mt-8 rounded-[2rem] border border-line bg-white p-7 shadow-lift sm:p-10">
+            <ContactForm />
+          </div>
+        </Reveal>
+      </div>
+    </div>
+  </section>
+</Layout>

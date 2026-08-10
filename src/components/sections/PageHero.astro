@@ -1,0 +1,48 @@
+---
+interface Props {
+  image: string;
+  kicker?: string;
+  title: string;
+  lede?: string;
+  /** Optional slot content (buttons, breadcrumbs…) rendered under the lede */
+}
+
+const { image, kicker, title, lede } = Astro.props;
+---
+
+<section class="relative overflow-hidden bg-pine-950">
+  <img
+    src={image}
+    alt=""
+    class="animate-drift absolute inset-0 h-full w-full object-cover opacity-55"
+    fetchpriority="high"
+  />
+  <div class="absolute inset-0 bg-gradient-to-b from-pine-950/80 via-pine-950/55 to-pine-950" aria-hidden="true"></div>
+  <div class="absolute inset-0 bg-gradient-to-r from-pine-950/85 via-pine-950/45 to-transparent" aria-hidden="true"></div>
+
+  <div class="wrap relative pb-16 pt-36 lg:pb-20 lg:pt-44">
+    <div class="max-w-3xl">
+      {
+        kicker && (
+          <p class="hero-rise kicker text-gold-300" style="--d:40ms">
+            <span class="h-1.5 w-1.5 rounded-full bg-current" aria-hidden="true" />
+            {kicker}
+          </p>
+        )
+      }
+      <h1 class="hero-rise mt-4 font-display text-hero text-balance text-cream" style="--d:110ms">
+        {title}
+      </h1>
+      {
+        lede && (
+          <p class="hero-rise mt-5 max-w-2xl text-pretty text-lg leading-relaxed text-cream/75" style="--d:180ms">
+            {lede}
+          </p>
+        )
+      }
+      <div class="hero-rise mt-8" style="--d:250ms">
+        <slot />
+      </div>
+    </div>
+  </div>
+</section>

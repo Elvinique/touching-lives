@@ -1,0 +1,61 @@
+---
+import { nextSteps } from '@/data/content';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import Reveal from '@/components/ui/Reveal.astro';
+import { ArrowRight } from '@lucide/astro';
+
+const tileTones = [
+  'bg-terra-500',
+  'bg-gold-400',
+  'bg-pine-600',
+  'bg-sage-500',
+  'bg-terra-400',
+  'bg-pine-800',
+];
+
+const ringTones = [
+  'group-hover:border-terra-300',
+  'group-hover:border-gold-300',
+  'group-hover:border-pine-300',
+  'group-hover:border-sage-300',
+  'group-hover:border-terra-300',
+  'group-hover:border-pine-300',
+];
+---
+
+<section class="bg-sand/60 py-16 lg:py-24">
+  <div class="wrap">
+    <SectionHeading
+      kicker="Your next step"
+      title="What's your next step?"
+      lede="Faith is a journey, and every journey starts with one step. Wherever you are, there's a next step waiting for you."
+      align="center"
+    />
+
+    <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        nextSteps.map((step, index) => {
+          const Icon = step.icon;
+          return (
+            <Reveal delay={index * 70}>
+              <a
+                href={step.href}
+                class={`group flex h-full flex-col rounded-[1.4rem] border-2 border-transparent bg-white p-7 shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:shadow-lift ${ringTones[index]}`}
+              >
+                <span class={`flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-soft ${tileTones[index]}`}>
+                  <Icon class="h-6 w-6" aria-hidden="true" />
+                </span>
+                <h3 class="mt-5 font-display text-xl text-ink">{step.title}</h3>
+                <p class="mt-2 text-pretty text-sm leading-relaxed text-muted">{step.description}</p>
+                <span class="card-link">
+                  {step.cta}
+                  <ArrowRight aria-hidden="true" />
+                </span>
+              </a>
+            </Reveal>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>

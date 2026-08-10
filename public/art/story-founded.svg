@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="An open doorway" preserveAspectRatio="xMidYMid slice">
+<defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#0C211F"/>
+    <stop offset="1" stop-color="#24544A"/>
+  </linearGradient>
+  <radialGradient id="glow" cx="0.5" cy="0.42" r="0.62">
+    <stop offset="0" stop-color="#F5C878" stop-opacity="0.5"/>
+    <stop offset="1" stop-color="#F5C878" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="vig" cx="0.5" cy="0.5" r="0.75">
+    <stop offset="0.6" stop-color="#000" stop-opacity="0"/>
+    <stop offset="1" stop-color="#000" stop-opacity="0.32"/>
+  </radialGradient>
+  <filter id="grain" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+    <feComponentTransfer><feFuncA type="linear" slope="0.05"/></feComponentTransfer>
+  </filter>
+</defs>
+<rect width="1200" height="800" fill="url(#sky)"/>
+<rect width="1200" height="800" fill="url(#glow)"/>
+<path d="M 468 656 V 320 A 132 138.6 0 0 1 732 320 V 656 Z" fill="#F5C878" opacity="0.85"/><ellipse cx="600" cy="656" rx="72.60000000000001" ry="16" fill="#F5C878" opacity="0.7"/><path d="M 396 656 V 272 A 204.00000000000003 208.08000000000004 0 0 1 804 272 V 656" fill="none" stroke="#CFE4DA" stroke-width="312" opacity="0.1" stroke-linecap="round"/><path d="M 312 656 V 272 A 288 293.76 0 0 1 888 272 V 656" fill="none" stroke="#CFE4DA" stroke-width="360" opacity="0.08" stroke-linecap="round"/><path d="M 228 656 V 272 A 372 379.44 0 0 1 972 272 V 656" fill="none" stroke="#CFE4DA" stroke-width="408.00000000000006" opacity="0.07" stroke-linecap="round"/><path d="M 144 656 V 272 A 456 465.12 0 0 1 1056 272 V 656" fill="none" stroke="#CFE4DA" stroke-width="444" opacity="0.055" stroke-linecap="round"/><path d="M0 688 Q 360 640 720 688 T 1200 672 V 800 H 0 Z" fill="#0A1A18"/><circle cx="137.28945294404673" cy="152.76249374177254" r="2.3548776183455717" fill="#FFF" opacity="0.4528331840506705"/><circle cx="1084.982772832796" cy="101.40562630463985" r="2.173958564878533" fill="#FFF" opacity="0.49272335786955124"/><circle cx="1148.3542002467802" cy="136.62424739840674" r="2.16372358193464" fill="#FFF" opacity="0.23523920884548016"/><circle cx="405.8429721287468" cy="70.75297048290791" r="1.234029667460763" fill="#FFF" opacity="0.4817787453145953"/><circle cx="428.97501107273274" cy="182.83252941717979" r="2.2433382695223245" fill="#FFF" opacity="0.366941789307788"/><circle cx="188.71694498064585" cy="79.22926923816023" r="1.568214861466167" fill="#FFF" opacity="0.2943621621513861"/><circle cx="173.6872595178072" cy="113.90570385118704" r="1.30078901717122" fill="#FFF" opacity="0.47562254866271103"/><circle cx="247.49930668121257" cy="111.36297405406444" r="1.7761196131126913" fill="#FFF" opacity="0.4578400810072606"/><circle cx="490.7088960892327" cy="176.20285440359004" r="1.9016490595828162" fill="#FFF" opacity="0.265350536815958"/><circle cx="461.8847895804075" cy="101.19974445868235" r="1.2133241149880587" fill="#FFF" opacity="0.43161106884644096"/>
+<rect width="1200" height="800" filter="url(#grain)"/>
+<rect width="1200" height="800" fill="url(#vig)"/>
+</svg>

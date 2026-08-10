@@ -1,0 +1,63 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatShortDate } from '@/lib/dates';
+
+interface Props {
+  announcements: CollectionEntry<'announcements'>[];
+}
+
+const { announcements } = Astro.props;
+
+// Featured announcements first, then soonest date.
+const ordered = [...announcements].sort(
+  (a, b) => Number(b.data.featured) - Number(a.data.featured) || a.data.date.getTime() - b.data.date.getTime(),
+);
+---
+
+{announcements.length > 0 && (
+  <section class="border-b border-line bg-cream" aria-label="Announcements">
+    <div class="wrap py-8">
+      <div class="flex items-center gap-4">
+        <p class="kicker shrink-0 text-terra-600">
+          <span class="h-1.5 w-1.5 rounded-full bg-current" aria-hidden="true" />
+          Happening now
+        </p>
+        <div class="h-px flex-1 bg-line" aria-hidden="true"></div>
+      </div>
+
+      <ul class="no-scrollbar mt-5 flex snap-x gap-4 overflow-x-auto pb-2">
+        {
+          ordered.map((a) => (
+            <li class="w-[85%] max-w-xs shrink-0 snap-start sm:w-80">
+              {a.data.href ? (
+                <a
+                  href={a.data.href}
+                  class="group flex h-full flex-col gap-2 rounded-3xl border border-line bg-white p-5 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-lift"
+                >
+                  <span class="text-xs font-semibold uppercase tracking-widest text-terra-600">
+                    {formatShortDate(a.data.date)}
+                  </span>
+                  <span class="font-display text-lg leading-snug text-ink">{a.data.title}</span>
+                  <span class="text-pretty text-sm text-muted">{a.data.body}</span>
+                  {a.data.cta && (
+                    <span class="mt-auto pt-1 text-sm font-semibold text-terra-600 transition-colors group-hover:text-terra-500">
+                      {a.data.cta} →
+                    </span>
+                  )}
+                </a>
+              ) : (
+                <div class="flex h-full flex-col gap-2 rounded-3xl border border-line bg-white p-5 shadow-soft">
+                  <span class="text-xs font-semibold uppercase tracking-widest text-terra-600">
+                    {formatShortDate(a.data.date)}
+                  </span>
+                  <span class="font-display text-lg leading-snug text-ink">{a.data.title}</span>
+                  <span class="text-pretty text-sm text-muted">{a.data.body}</span>
+                </div>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+)}

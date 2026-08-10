@@ -1,0 +1,83 @@
+---
+import { Check, ArrowRight } from '@lucide/astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import Reveal from '@/components/ui/Reveal.astro';
+import { stats } from '@/data/content';
+import { media } from '@/data/media';
+
+const audiences = [
+  "Brand new to faith and curious what it's all about",
+  'Visiting a church for the first time in years',
+  'Coming back after a season away',
+  'Looking for community that feels like family',
+  'Wanting to grow spiritually, at your own pace',
+];
+
+---
+
+<section class="wrap py-16 lg:py-24">
+  <div class="grid items-center gap-12 lg:grid-cols-[10fr_12fr] lg:gap-16">
+    <!-- Image — 45/55 split, framed (media slot: artwork placeholder until the real photo is provided) -->
+    <Reveal class="relative">
+      <div class="absolute -left-4 -top-4 h-full w-full rounded-[2rem] border-2 border-terra-200" aria-hidden="true"></div>
+      <img
+        src={media.welcomeCommunity.src}
+        alt={media.welcomeCommunity.alt}
+        loading="lazy"
+        style={{ aspectRatio: media.welcomeCommunity.aspect }}
+        class="img-enter relative w-full rounded-[2rem] object-cover shadow-lift"
+      />
+      <div class="absolute -bottom-6 -right-3 rounded-3xl bg-pine-950 px-6 py-5 text-cream shadow-lift sm:-right-6">
+        <p class="font-display text-2xl font-semibold text-gold-300">Est. 1984</p>
+        <p class="text-xs uppercase tracking-widest text-cream/60">Serving Austin since</p>
+      </div>
+    </Reveal>
+
+    <!-- Copy -->
+    <div>
+      <SectionHeading
+        kicker="Welcome home"
+        title="There's a place for you here."
+        lede="Church shouldn't be a place you have to earn your way into. However you show up — curious, skeptical, tired, hopeful — you'll find people glad you came."
+        size="editorial"
+      />
+
+      <Reveal delay={100}>
+        <ul class="mt-8 space-y-3.5">
+          {
+            audiences.map((item) => (
+              <li class="flex items-start gap-3 text-[0.95rem] text-pine-950/80">
+                <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-sage-100 text-sage-700">
+                  <Check class="h-3.5 w-3.5" aria-hidden="true" />
+                </span>
+                {item}
+              </li>
+            ))
+          }
+        </ul>
+
+        <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <a href="/visit" class="btn btn-primary btn-lg">
+            I'm new — plan my visit
+            <ArrowRight class="h-4 w-4" aria-hidden="true" />
+          </a>
+          <a href="/about" class="btn btn-ghost btn-lg">Learn about our church</a>
+        </div>
+      </Reveal>
+
+      <Reveal delay={180}>
+        <dl class="mt-12 grid grid-cols-3 gap-6 border-t border-line pt-8">
+          {
+            stats.slice(0, 3).map((stat) => (
+              <div>
+                <dt class="sr-only">{stat.label}</dt>
+                <dd class="font-display text-3xl font-semibold text-pine-900 sm:text-4xl">{stat.value}</dd>
+                <dd class="mt-1 text-xs leading-snug text-muted">{stat.label}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </Reveal>
+    </div>
+  </div>
+</section>

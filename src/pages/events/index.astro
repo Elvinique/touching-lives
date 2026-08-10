@@ -1,0 +1,186 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import PageHero from '@/components/sections/PageHero.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import Reveal from '@/components/ui/Reveal.astro';
+import EmptyState from '@/components/ui/EmptyState.astro';
+import EventCard from '@/components/cards/EventCard.astro';
+import CTASection from '@/components/sections/CTASection.astro';
+import { isUpcoming, formatLongDate } from '@/lib/dates';
+import { CalendarDays, ArrowRight, MapPin, Clock3 } from '@lucide/astro';
+
+const now = new Date();
+const allEvents = (await getCollection('events')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const upcoming = allEvents
+  .filter((event) => isUpcoming(event.data.date, now))
+  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+
+const past = allEvents.filter((event) => !isUpcoming(event.data.date, now));
+
+const featured = upcoming.find((event) => event.data.featured) ?? upcoming[0];
+---
+
+<Layout
+  title="Events"
+  description="See what's happening at Touching Lives Church — services, growth track, worship nights, serve days, conferences and more."
+  jsonLd={[
+    {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      itemListElement: upcoming.slice(0, 10).map((event, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        item: {
+          '@type': 'Event',
+          name: event.data.title,
+          startDate: event.data.date.toISOString(),
+          location: { '@type': 'Place', name: event.data.location },
+        },
+      })),
+    },
+  ]}
+>
+  <PageHero
+    image="/art/hero-events.svg"
+    kicker="Events"
+    title="Something good is always happening."
+    lede="Worship nights, serve days, conferences, and tables full of people. Find the next thing you want to be part of."
+  />
+
+  <!-- Featured event banner -->
+  {
+    featured && (
+      <section class="wrap pt-16 lg:pt-20">
+        <Reveal>
+          <a
+            href={`/events/${featured.id}`}
+            class="group relative block overflow-hidden rounded-[2rem] bg-pine-950 shadow-lift"
+          >
+            <img
+              src={featured.data.image}
+              alt=""
+              loading="lazy"
+              class="absolute inset-0 h-full w-full object-cover opacity-45 transition-transform duration-700 group-hover:scale-105"
+            />
+            <div class="absolute inset-0 bg-gradient-to-r from-pine-950 via-pine-950/75 to-pine-950/20" aria-hidden="true"></div>
+
+            <div class="relative flex flex-col gap-8 p-8 text-cream sm:p-12 lg:flex-row lg:items-center lg:justify-between lg:p-16">
+              <div class="max-w-2xl">
+                <span class="chip chip-terra">Next up</span>
+                <h2 class="mt-4 font-display text-title text-balance">{featured.data.title}</h2>
+                <p class="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-cream/80">
+                  <span class="inline-flex items-center gap-2">
+                    <CalendarDays class="h-4 w-4 text-gold-300" aria-hidden="true" />
+                    {formatLongDate(featured.data.date)}
+                  </span>
+                  <span class="inline-flex items-center gap-2">
+                    <Clock3 class="h-4 w-4 text-gold-300" aria-hidden="true" />
+                    {featured.data.time}
+                  </span>
+                  <span class="inline-flex items-center gap-2">
+                    <MapPin class="h-4 w-4 text-gold-300" aria-hidden="true" />
+                    {featured.data.location}
+                  </span>
+                </p>
+                <p class="mt-4 line-clamp-2 max-w-xl text-pretty text-cream/65">{featured.data.description}</p>
+              </div>
+              <span class="btn btn-primary btn-lg shrink-0">
+                Event details
+                <ArrowRight class="h-4 w-4" aria-hidden="true" />
+              </span>
+            </div>
+          </a>
+        </Reveal>
+      </section>
+    )
+  }
+
+  <!-- Upcoming -->
+  <section class="wrap py-16 lg:py-20">
+    <SectionHeading
+      kicker="Upcoming"
+      title="What's on the calendar"
+      lede="Add any event to your calendar, or register right from its page."
+    />
+
+    {
+      upcoming.length > 0 ? (
+        <ul class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {
+            upcoming.map((event, index) => (
+              <li class="reveal h-full" style={`--reveal-delay:${(index % 3) * 70}ms`}>
+                <EventCard
+                  event={{
+                    title: event.data.title,
+                    date: event.data.date,
+                    time: event.data.time,
+                    location: event.data.location,
+                    category: event.data.category,
+                    description: event.data.description,
+                    image: event.data.image,
+                    href: `/events/${event.id}`,
+                  }}
+                  class="h-full"
+                />
+              </li>
+            ))
+          }
+        </ul>
+      ) : (
+        <Reveal>
+          <div class="mt-10">
+            <EmptyState
+              title="No upcoming events right now"
+              lede="We're planning the next season — check back soon, or say hi and we'll keep you posted."
+            >
+              <a href="/contact" class="btn btn-primary btn-md">Let us know you're interested</a>
+            </EmptyState>
+          </div>
+        </Reveal>
+      )
+    }
+  </section>
+
+  <!-- Past -->
+  {
+    past.length > 0 && (
+      <section class="bg-sand/60 py-16 lg:py-20">
+        <div class="wrap">
+          <SectionHeading kicker="Earlier this season" title="Past events" />
+          <ul class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {
+            past.map((event, index) => (
+              <li class="reveal h-full" style={`--reveal-delay:${(index % 3) * 60}ms`}>
+                <EventCard
+                  event={{
+                    title: event.data.title,
+                    date: event.data.date,
+                    time: event.data.time,
+                    location: event.data.location,
+                    category: event.data.category,
+                    description: event.data.description,
+                    image: event.data.image,
+                    href: `/events/${event.id}`,
+                  }}
+                  past
+                  class="h-full"
+                />
+              </li>
+            ))
+            }
+          </ul>
+        </div>
+      </section>
+    )
+  }
+
+  <CTASection
+    kicker="Don't wait for Sunday"
+    title="There's always a seat at the table."
+    lede="Most of our events are free and open to everyone — neighbors, coworkers, and friends are always welcome."
+    primary={{ label: 'Plan Your Visit', href: '/visit' }}
+    secondary={{ label: 'Talk to someone', href: '/contact' }}
+  />
+</Layout>

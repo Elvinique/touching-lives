@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" role="img" aria-label="A plant growing toward the light" preserveAspectRatio="xMidYMid slice">
+<defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#0F1C10"/>
+    <stop offset="1" stop-color="#3E5C35"/>
+  </linearGradient>
+  <radialGradient id="glow" cx="0.5" cy="0.42" r="0.62">
+    <stop offset="0" stop-color="#F4DCA2" stop-opacity="0.5"/>
+    <stop offset="1" stop-color="#F4DCA2" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="vig" cx="0.5" cy="0.5" r="0.75">
+    <stop offset="0.6" stop-color="#000" stop-opacity="0"/>
+    <stop offset="1" stop-color="#000" stop-opacity="0.32"/>
+  </radialGradient>
+  <filter id="grain" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+    <feComponentTransfer><feFuncA type="linear" slope="0.05"/></feComponentTransfer>
+  </filter>
+</defs>
+<rect width="1920" height="1080" fill="url(#sky)"/>
+<rect width="1920" height="1080" fill="url(#glow)"/>
+<ellipse cx="960" cy="280.8" rx="307.2" ry="129.6" fill="#F4DCA2" opacity="0.35"/><path d="M 960 928.8 C 844.8 648, 1056 518.4, 960 237.6" fill="none" stroke="#D9E5C0" stroke-width="23.04" stroke-linecap="round" opacity="0.9"/>
+    <g transform="translate(960,799.2) rotate(-38) scale(1)" opacity="0.95">
+      <path d="M0 0 C -105.6 -38.4, -115.19999999999999 -144, 0 -192 C 115.19999999999999 -144, 105.6 -38.4, 0 0 Z" fill="#51693A"/>
+    </g>
+    <g transform="translate(960,712.8000000000001) rotate(42) scale(0.85)" opacity="0.85">
+      <path d="M0 0 C -105.6 -38.4, -115.19999999999999 -144, 0 -192 C 115.19999999999999 -144, 105.6 -38.4, 0 0 Z" fill="#86A65F"/>
+    </g>
+    <g transform="translate(960,594) rotate(-30) scale(0.8)" opacity="0.8">
+      <path d="M0 0 C -105.6 -38.4, -115.19999999999999 -144, 0 -192 C 115.19999999999999 -144, 105.6 -38.4, 0 0 Z" fill="#D9E5C0"/>
+    </g>
+    <g transform="translate(960,507.59999999999997) rotate(48) scale(0.7)" opacity="0.9">
+      <path d="M0 0 C -105.6 -38.4, -115.19999999999999 -144, 0 -192 C 115.19999999999999 -144, 105.6 -38.4, 0 0 Z" fill="#51693A"/>
+    </g>
+    <g transform="translate(960,388.8) rotate(-34) scale(0.65)" opacity="0.8">
+      <path d="M0 0 C -105.6 -38.4, -115.19999999999999 -144, 0 -192 C 115.19999999999999 -144, 105.6 -38.4, 0 0 Z" fill="#86A65F"/>
+    </g>
+    <g transform="translate(960,302.40000000000003) rotate(40) scale(0.55)" opacity="0.75">
+      <path d="M0 0 C -105.6 -38.4, -115.19999999999999 -144, 0 -192 C 115.19999999999999 -144, 105.6 -38.4, 0 0 Z" fill="#D9E5C0"/>
+    </g><circle cx="960" cy="199.8" r="23.04" fill="#F4DCA2"/><path d="M0 928.8 Q 576 874.8000000000001 1248 928.8 T 1920 907.1999999999999 V 1080 H 0 Z" fill="#101B0C" opacity="0.92"/>
+<rect width="1920" height="1080" filter="url(#grain)"/>
+<rect width="1920" height="1080" fill="url(#vig)"/>
+</svg>

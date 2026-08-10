@@ -1,0 +1,43 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { ArrowRight, House } from '@lucide/astro';
+---
+
+<Layout title="Page not found" description="That page doesn't exist — but you're always welcome here." noindex>
+  <section class="relative flex min-h-[92svh] items-center overflow-hidden bg-pine-950">
+    <img
+      src="/art/hero-main.svg"
+      alt=""
+      class="absolute inset-0 h-full w-full object-cover opacity-35"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-pine-950/85 via-pine-950/60 to-pine-950" aria-hidden="true"></div>
+
+    <div class="wrap relative py-32 text-center">
+      <p class="hero-rise kicker justify-center text-gold-300" style="--d:60ms">
+        <span class="h-1.5 w-1.5 rounded-full bg-current" aria-hidden="true" />
+        Page not found
+      </p>
+
+      <h1 class="hero-rise mx-auto mt-5 max-w-2xl font-display text-display text-balance text-cream" style="--d:140ms">
+        Looks like you took a wrong turn.
+      </h1>
+
+      <p class="hero-rise mx-auto mt-6 max-w-xl text-pretty text-lg text-cream/75" style="--d:220ms">
+        The page you're looking for isn't here — but you are, and that's the important part.
+        Let's get you back to something good.
+      </p>
+
+      <div class="hero-rise mt-10 flex flex-col justify-center gap-3 sm:flex-row" style="--d:300ms">
+        <a href="/" class="btn btn-primary btn-lg">
+          <House class="h-5 w-5" aria-hidden="true" />
+          Back home
+        </a>
+        <a href="/messages" class="btn btn-outline-light btn-lg">
+          Browse messages
+          <ArrowRight class="h-4 w-4" aria-hidden="true" />
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
